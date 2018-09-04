@@ -37,7 +37,6 @@ std::pair<std::pair<std::size_t, std::size_t>, T>
     (std::pair<std::size_t, std::size_t>
      (max_left, max_right), left_sum + right_sum);
 }
-
 template <typename T>
 std::pair<std::pair<std::size_t, std::size_t>, T>
   find_maximum_subarray(T *a,
@@ -46,8 +45,7 @@ std::pair<std::pair<std::size_t, std::size_t>, T>
 {
   if(high == low)
     return std::pair<std::pair<std::size_t, std::size_t>, T>
-      (std::pair<std::size_t, std::size_t>
-       (low, high), a[low]);
+      (std::pair<std::size_t, std::size_t>(low, high), a[low]);
   else
     {
       std::size_t mid = (low + high) / 2;
