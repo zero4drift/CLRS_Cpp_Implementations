@@ -6,7 +6,7 @@
 
 template <typename T>
 std::pair<std::pair<std::size_t, std::size_t>, T>
-  find_max_crossing_subarray(T *a,
+  find_max_crossing_subarray(const T *a,
 			     std::size_t low,
 			     std::size_t mid,
 			     std::size_t high)
@@ -39,7 +39,7 @@ std::pair<std::pair<std::size_t, std::size_t>, T>
 }
 template <typename T>
 std::pair<std::pair<std::size_t, std::size_t>, T>
-  find_maximum_subarray(T *a,
+  find_maximum_subarray(const T *a,
 			std::size_t low,
 			std::size_t high)
 {

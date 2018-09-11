@@ -5,7 +5,7 @@
 #include <utility>
 
 template <typename T, std::size_t n>
-  void square_matrix_multiply(T a[n][n], T b[n][n], T c[n][n])
+void square_matrix_multiply(const T (&a)[n][n], const T (&b)[n][n], T (&c)[n][n])
 {
   for(std::size_t i = 0; i != n; ++i)
     for(std::size_t j = 0; j != n; ++j)

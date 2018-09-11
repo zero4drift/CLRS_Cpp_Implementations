@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "square_matrix_multiply_recursive.h"
 
-TEST(SquareMatrixMultiply, D1Matrix)
+TEST(SquareMatrixMultiplyRecursive, D1Matrix)
 {
   int a[1][1] = {1};
   int b[1][1] = {2};
@@ -10,7 +10,7 @@ TEST(SquareMatrixMultiply, D1Matrix)
   EXPECT_EQ(c[0][0], 2);
 }
 
-TEST(SquareMatrixMultiply, D2Matrix)
+TEST(SquareMatrixMultiplyRecursive, D2Matrix)
 {
   int a[2][2] = {{1, 2}, {3, 4}};
   int b[2][2] = {{5, 6}, {7, 8}};
@@ -22,7 +22,7 @@ TEST(SquareMatrixMultiply, D2Matrix)
   EXPECT_EQ(c[1][1], 50);
 }
 
-TEST(SquareMatrixMultiply, D4Matrix)
+TEST(SquareMatrixMultiplyRecursive, D4Matrix)
 {
   int a[4][4] = {{1, 2, 3, 4}, {3, 4, 5, 6}, {5, 6, 7, 8}, {7, 8, 9, 10}};
   int b[4][4] = {{9, 10, 11, 12}, {11, 12, 13, 14}, {13, 14, 15, 16}, {15, 16, 17, 18}};

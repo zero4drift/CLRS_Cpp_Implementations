@@ -9,8 +9,8 @@ template <typename T, std::size_t n>
 void divide_matrix_4(T (&a)[n][n],
 		     T (&b)[n/2][n/2],
 		     T (&c)[n/2][n/2],
-		     T (&a00)[n/2][n/2],
-		     T (&a01)[n/2][n/2])
+		     T (&d)[n/2][n/2],
+		     T (&e)[n/2][n/2])
 {
   for(std::size_t i = 0; i != n / 2; ++i)
     for(std::size_t j = 0; j != n / 2; ++j)
@@ -20,26 +20,26 @@ void divide_matrix_4(T (&a)[n][n],
       c[i][j - n/2] = a[i][j];
   for(std::size_t i = n / 2; i != n; ++i)
     for(std::size_t j = 0; j != n / 2; ++j)
-      a00[i - n/2][j] = a[i][j];
+      d[i - n/2][j] = a[i][j];
   for(std::size_t i = n / 2; i != n; ++i)
     for(std::size_t j = n / 2; j != n; ++j)
-      a01[i - n/2][j - n/2] = a[i][j];
+      e[i - n/2][j - n/2] = a[i][j];
 }
 
 template <typename T, std::size_t n>
 void combine_matrix_4(T (&a)[n][n],
 		      T (&b)[n/2][n/2],
 		      T (&c)[n/2][n/2],
-		      T (&a00)[n/2][n/2],
-		      T (&a01)[n/2][n/2])
+		      T (&d)[n/2][n/2],
+		      T (&e)[n/2][n/2])
 {
   for(std::size_t i = 0; i != n / 2; ++i)
     for(std::size_t j = 0; j != n / 2; ++j)
       {
 	a[i][j] = b[i][j];
 	a[i][j + n/2] = c[i][j];
-	a[i + n/2][j] = a00[i][j];
-	a[i + n/2][j + n/2] = a01[i][j];
+	a[i + n/2][j] = d[i][j];
+	a[i + n/2][j + n/2] = e[i][j];
       }
 }
 
