@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-5/hire_assistant_randomize_in_place/swap_randomized_hire_assistant.h"
+#include "chapter-5/hire_assistant_randomize_in_place/swap_randomized_hire_assistant.h"
 
 TEST(SwapRandomizedHireAssistant, FromHighToLow)
 {

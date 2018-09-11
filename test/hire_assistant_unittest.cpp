@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-5/hire_assistant/hire_assistant.h"
+#include "chapter-5/hire_assistant/hire_assistant.h"
 
 TEST(HireAssistant, FromHighToLow)
 {

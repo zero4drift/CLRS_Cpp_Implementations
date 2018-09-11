@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-6/build_max_heap/build_max_heap.h"
+#include "chapter-6/build_max_heap/build_max_heap.h"
 
 TEST(BuildMaxHeap, UnsortedArray)
 {

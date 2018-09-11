@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-5/hire_assistant_randomize_in_place/randomize_in_place.h"
+#include "chapter-5/hire_assistant_randomize_in_place/randomize_in_place.h"
 
 // Due to array randomize sorted, have to do this:
 bool randomize_in_place_unittest_if_randomized(int a, int b, int c, int d)

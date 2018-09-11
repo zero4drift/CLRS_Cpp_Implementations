@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-4/square_matrix_multiply/square_matrix_multiply_strassen_recursive.h"
+#include "chapter-4/square_matrix_multiply/square_matrix_multiply_strassen_recursive.h"
 
 TEST(SquareMatrixMultiplyStrassen, D1Matrix)
 {

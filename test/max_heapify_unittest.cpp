@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include "../include/chapter-6/max_heapify/max_heapify.h"
+#include "chapter-6/max_heapify/max_heapify.h"
 
 using std::vector;
 

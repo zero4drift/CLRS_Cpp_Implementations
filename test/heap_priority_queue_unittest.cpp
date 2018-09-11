@@ -1,7 +1,7 @@
 #include <vector>
 #include <stdexcept>
 #include <gtest/gtest.h>
-#include "../include/chapter-6/heap_priority_queue/heap_priority_queue.h"
+#include "chapter-6/heap_priority_queue/heap_priority_queue.h"
 
 using std::vector;
 using std::underflow_error;

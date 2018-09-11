@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-2/insertion_sort/insertion_sort.h"
+#include "chapter-2/insertion_sort/insertion_sort.h"
 
 TEST(InsertionSort, HandleNormalArray1)
 {

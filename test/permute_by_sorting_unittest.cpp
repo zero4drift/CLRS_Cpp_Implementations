@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-5/hire_assistant_permute_by_sorting/permute_by_sorting.h"
+#include "chapter-5/hire_assistant_permute_by_sorting/permute_by_sorting.h"
 
 // Due to array randomize sorted, have to do this:
 bool if_randomized(int a, int b, int c, int d)

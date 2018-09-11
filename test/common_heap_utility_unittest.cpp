@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-6/common_heap_utility.h"
+#include "chapter-6/common_heap_utility.h"
 
 TEST(CommonUtilityParent, BelowRoot)
 {

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-4/find_maximum_subarray/find_maximum_subarray.h"
+#include "chapter-4/find_maximum_subarray/find_maximum_subarray.h"
 
 TEST(FindMaximumSubarray, NormalArray)
 {

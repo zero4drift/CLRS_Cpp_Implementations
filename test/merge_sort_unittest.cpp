@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../include/chapter-2/merge_sort/merge_sort.h"
+#include "chapter-2/merge_sort/merge_sort.h"
 
 TEST(MergeSort, HandleEvenArray1)
 {
