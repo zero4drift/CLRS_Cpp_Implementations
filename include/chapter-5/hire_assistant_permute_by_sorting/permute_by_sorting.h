@@ -5,7 +5,7 @@
 #include <ctime>
 #include <random>
 #include <utility>
-#include "../../chapter-2/merge_sort/merge_sort.h"
+#include "chapter-2/merge_sort/merge_sort.h"
 
 template <typename T>
 bool operator<=(std::pair<T, unsigned> p1, std::pair<T, unsigned> p2)
