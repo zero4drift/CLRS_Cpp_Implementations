@@ -8,7 +8,7 @@
 #include "chapter-7/quicksort/quicksort.h"
 
 template <typename T, std::size_t n>
-  std::size_t randomized_partition(T (&a)[n], long long p, long long r)
+std::size_t randomized_partition(T (&a)[n], long long p, long long r)
 {
   std::default_random_engine e(std::time(0));
   std::uniform_int_distribution<long long> u(p, r);
@@ -20,7 +20,7 @@ template <typename T, std::size_t n>
 }
 
 template <typename T, std::size_t n>
-  void randomized_quicksort(T (&a)[n], long long p, long long r)
+void randomized_quicksort(T (&a)[n], long long p, long long r)
 {
   if(p < r)
     {
