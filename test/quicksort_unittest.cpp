@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-7/quicksort/quicksort.h"
 
+using namespace CLRS;
+
 TEST(Partition, NormalArray)
 {
   int a[8] = {2, 8, 7, 1, 3, 5, 6, 4};

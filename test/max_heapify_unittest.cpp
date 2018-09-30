@@ -2,6 +2,8 @@
 #include <vector>
 #include "chapter-6/max_heapify/max_heapify.h"
 
+using namespace CLRS;
+
 using std::vector;
 
 TEST(MaxHeapIfy, IllegalArray1)

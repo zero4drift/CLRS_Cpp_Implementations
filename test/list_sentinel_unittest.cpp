@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-10/list/list_sentinel.h"
 
+using namespace CLRS;
+
 TEST(ListSentinelTest, InsertSearch)
 {
   ListSentinel<int> l;

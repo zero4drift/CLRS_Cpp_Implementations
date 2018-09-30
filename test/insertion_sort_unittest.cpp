@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-2/insertion_sort/insertion_sort.h"
 
+using namespace CLRS;
+
 TEST(InsertionSort, HandleNormalArray1)
 {
   int a[4] = {4, 3, 2, 1};

@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-6/heapsort/heapsort.h"
 
+using namespace CLRS;
+
 TEST(HeapSort, UnsortedArray)
 {
   int a[10] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};

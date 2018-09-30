@@ -2,6 +2,8 @@
 #include <gtest/gtest.h>
 #include "chapter-10/queue/queue.h"
 
+using namespace CLRS;
+
 TEST(Queue, EmptyQueue)
 {
   Queue<int, 4> q;

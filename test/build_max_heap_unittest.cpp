@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-6/build_max_heap/build_max_heap.h"
 
+using namespace CLRS;
+
 TEST(BuildMaxHeap, UnsortedArray)
 {
   int a[10] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};

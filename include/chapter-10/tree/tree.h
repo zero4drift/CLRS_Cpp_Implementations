@@ -4,22 +4,25 @@
 
 #include <utility>
 
-template <typename T> class TreeNode;
-
-template <typename T>
-class Tree
+namespace CLRS
 {
-  TreeNode<T> *root = nullptr;
-};
+  template <typename T> class TreeNode;
 
-template <typename T>
-class TreeNode
-{
-  TreeNode<T> *p = nullptr;
-  TreeNode<T> *left = nullptr;
-  TreeNode<T> *right = nullptr;
-  T key;
-};
+  template <typename T>
+  class Tree
+  {
+    TreeNode<T> *root = nullptr;
+  };
+
+  template <typename T>
+  class TreeNode
+  {
+    TreeNode<T> *p = nullptr;
+    TreeNode<T> *left = nullptr;
+    TreeNode<T> *right = nullptr;
+    T key;
+  };
+}
 
 
 #endif

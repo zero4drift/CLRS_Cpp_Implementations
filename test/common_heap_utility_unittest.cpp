@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-6/common_heap_utility.h"
 
+using namespace CLRS;
+
 TEST(CommonUtilityParent, BelowRoot)
 {
   EXPECT_EQ(0, parent(1));

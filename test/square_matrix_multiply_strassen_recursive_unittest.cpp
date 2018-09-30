@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-4/square_matrix_multiply/square_matrix_multiply_strassen_recursive.h"
 
+using namespace CLRS;
+
 TEST(SquareMatrixMultiplyStrassen, D1Matrix)
 {
   int a[1][1] = {1};

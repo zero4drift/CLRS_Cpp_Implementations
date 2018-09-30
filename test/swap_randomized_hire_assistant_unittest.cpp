@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-5/hire_assistant_randomize_in_place/swap_randomized_hire_assistant.h"
 
+using namespace CLRS;
+
 TEST(SwapRandomizedHireAssistant, FromHighToLow)
 {
   int array[5] = {5, 4, 3, 2, 1};

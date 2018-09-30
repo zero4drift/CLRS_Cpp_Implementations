@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-4/find_maximum_subarray/find_maximum_subarray.h"
 
+using namespace CLRS;
+
 TEST(FindMaximumSubarray, NormalArray)
 {
   int array[] = {13, -3, -25, 20, -3, -16, -23, 18, 20,

@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include "chapter-6/heap_priority_queue/heap_priority_queue.h"
 
+using namespace CLRS;
+
 using std::vector;
 using std::underflow_error;
 using std::logic_error;

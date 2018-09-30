@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-10/list/list.h"
 
+using namespace CLRS;
+
 TEST(ListTest, InsertSearch)
 {
   List<int> l;

@@ -2,6 +2,8 @@
 #include "chapter-9/maximum_minimum/maximum_minimum.h"
 #include "chapter-9/maximum_minimum/minimum.h"
 
+using namespace CLRS;
+
 TEST(Minimum, NormalArray)
 {
   int a[8] = {1, 2, 3, 4, 5, 6, 7, 8}; 

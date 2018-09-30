@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-5/hire_assistant/hire_assistant.h"
 
+using namespace CLRS;
+
 TEST(HireAssistant, FromHighToLow)
 {
   int array[5] = {5, 4, 3, 2, 1};

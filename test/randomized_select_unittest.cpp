@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-9/randomized_select/randomized_select.h"
 
+using namespace CLRS;
+
 TEST(RandomizedSelect, NormalArray)
 {
   int a[8] = {1, 2, 3, 4, 5, 6, 7, 8};

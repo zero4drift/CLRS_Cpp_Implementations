@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-2/merge_sort/merge_sort.h"
 
+using namespace CLRS;
+
 TEST(MergeSort, HandleEvenArray1)
 {
   int a[4] = {4, 3, 2, 1};

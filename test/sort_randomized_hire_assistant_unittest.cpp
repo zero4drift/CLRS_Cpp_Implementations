@@ -1,6 +1,10 @@
 #include <gtest/gtest.h>
 #include "chapter-5/hire_assistant_permute_by_sorting/sort_randomized_hire_assistant.h"
 
+using namespace CLRS;
+
+using namespace CLRS;
+
 TEST(SortRandomizedHireAssistant, FromHighToLow)
 {
   int array[5] = {5, 4, 3, 2, 1};

@@ -2,6 +2,8 @@
 #include <gtest/gtest.h>
 #include "chapter-10/stack/stack.h"
 
+using namespace CLRS;
+
 TEST(Stack, EmptyStack)
 {
   Stack<int, 10> s;

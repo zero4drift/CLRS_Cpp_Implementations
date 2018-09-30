@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-8/counting_sort/counting_sort.h"
 
+using namespace CLRS;
+
 TEST(CountingSort, NormalArray)
 {
   unsigned a[8] = {2, 5, 3, 0, 2, 3, 0, 3};

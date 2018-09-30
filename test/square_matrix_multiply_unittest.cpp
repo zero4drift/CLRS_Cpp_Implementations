@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-4/square_matrix_multiply/square_matrix_multiply.h"
 
+using namespace CLRS;
+
 TEST(SquareMatrixMultiply, NormalMatrix)
 {
   int a[2][2] = {{1, 2}, {3, 4}};

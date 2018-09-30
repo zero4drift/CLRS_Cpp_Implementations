@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-8/radix_sort/radix_sort.h"
 
+using namespace CLRS;
+
 TEST(RadixDigit, OneDigit)
 {
   int i = 8;

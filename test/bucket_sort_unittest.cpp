@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "chapter-8/bucket_sort/bucket_sort.h"
 
+using namespace CLRS;
+
 TEST(BucketSort, UniformIndividualDoubleArray)
 {
   double d[10] = {0.78, 0.17, 0.39, 0.26, 0.72,
