@@ -4,6 +4,8 @@
 namespace CLRS
 
 {
+  const char REDBLACK_RED = 'R';
+  const char REDBLACK_BLACK = 'B';
   template <typename T> class RedBlackTreeNode;
 
   template <typename T>
@@ -149,7 +151,48 @@ namespace CLRS
   template <typename T>
   void red_black_insert_fixup(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
   {
-    
+    while(z->get_p()->get_color() == REDBLACK_RED)
+      {
+	if(z->get_p() == z->get_p()->get_p()->get_left())
+	  {
+	    RedBlackTreeNode<T> *y = z->get_p()->get_p()->get_right();
+	    if(y->get_color() == REDBLACK_RED)
+	      {
+		z->get_p()->set_color(REDBLACK_BLACK);
+		y->set_color(REDBLACK_BLACK);
+		z->get_p()->get_p()->set_color(REDBLACK_RED);
+		z = z->get_p()->get_p();
+	      }
+	    else if(z == z->get_p()->get_right())
+	      {
+		z = z->get_p();
+		left_rotate(t, z);
+	      }
+	    z->get_p()->set_color(REDBLACK_BLACK);
+	    z->get_p()->get_p()->set_color(REDBLACK_RED);
+	    right_rotate(t, z->get_p()->get_p());
+	  }
+	else
+	  {
+	    RedBlackTreeNode<T> *y = z->get_p()->get_p()->get_left();
+	    if(y->get_color() == REDBLACK_RED)
+	      {
+		z->get_p()->set_color(REDBLACK_BLACK);
+		y->set_color(REDBLACK_BLACK);
+		z->get_p()->get_p()->set_color(REDBLACK_RED);
+		z = z->get_p()->get_p();
+	      }
+	    else if(z == z->get_p()->get_left())
+	      {
+		z = z->get_p();
+		right_rotate(t, z);
+	      }
+	    z->get_p()->set_color(REDBLACK_BLACK);
+	    z->get_p()->get_p()->set_color(REDBLACK_RED);
+	    left_rotate(t, z->get_p()->get_p());
+	  }
+	t->get_root()->set_color(REDBLACK_BLACK);
+      }
   }
 
   template <typename T>
@@ -174,7 +217,7 @@ namespace CLRS
       y->set_right(z);
     z->set_left(t->get_nil());
     z->set_right(t->get_nil());
-    z->set_color('R');
+    z->set_color(REDBLACK_RED);
     red_black_insert_fixup(t, z);
   }
 }
