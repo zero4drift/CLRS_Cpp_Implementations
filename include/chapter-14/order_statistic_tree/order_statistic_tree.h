@@ -1,64 +1,93 @@
-#ifndef RED_BLACK_TREE_H
-#define RED_BLACK_TREE_H
+#ifndef ORDER_STATISTIC_TREE
+#define ORDER_STATISTIC_TREE
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
+#include <utility>
+#include "chapter-13/red_black_tree/red_black_tree.h"
 
 namespace CLRS
 {
-  constexpr char REDBLACK_RED = 'R';
-  constexpr char REDBLACK_BLACK = 'B';
-  template <typename T> class RedBlackTreeNode;
+  template <typename T> class OrderStatisticTreeNode;
 
   template <typename T>
-  class RedBlackTree
+  class OrderStatisticTree
   {
-    RedBlackTreeNode<T> nil;
-    RedBlackTreeNode<T> *root;
+    OrderStatisticTreeNode<T> nil;
+    OrderStatisticTreeNode<T> *root;
   public:
-    RedBlackTree() {nil.set_color(REDBLACK_BLACK); root = &nil;}
-    RedBlackTreeNode<T> *get_root() {return root;}
-    RedBlackTreeNode<T> *get_nil() {return &nil;}
-    void set_root(RedBlackTreeNode<T> *r) {root = r;}
+    OrderStatisticTree()
+    {nil.set_color(REDBLACK_BLACK); nil.set_size(0); root = &nil;}
+    OrderStatisticTreeNode<T> *get_root() {return root;}
+    OrderStatisticTreeNode<T> *get_nil() {return &nil;}
+    void set_root(OrderStatisticTreeNode<T> *r) {root = r;}
   };
 
   template <typename T>
-  class RedBlackTreeNode
+  class OrderStatisticTreeNode
   {
     T key;
     char color;
-    RedBlackTreeNode *p = nullptr;
-    RedBlackTreeNode *left = nullptr;
-    RedBlackTreeNode *right = nullptr;
+    std::size_t size = 1;
+    OrderStatisticTreeNode *p = nullptr;
+    OrderStatisticTreeNode *left = nullptr;
+    OrderStatisticTreeNode *right = nullptr;
   public:
-    RedBlackTreeNode(T k): key(k) {}
-    RedBlackTreeNode() = default;
+    OrderStatisticTreeNode(T k): key(k) {}
+    OrderStatisticTreeNode() = default;
+    T get_key() {return key;}
     char get_color() {return color;}
     T get_value() {return key;}
-    RedBlackTreeNode *get_p() {return p;}
-    RedBlackTreeNode *get_left() {return left;}
-    RedBlackTreeNode *get_right() {return right;}
-    void set_p(RedBlackTreeNode *parent) {p = parent;}
-    void set_left(RedBlackTreeNode *l) {left = l;}
-    void set_right(RedBlackTreeNode *r) {right = r;}
+    std::size_t get_size() {return size;}
+    OrderStatisticTreeNode *get_p() {return p;}
+    OrderStatisticTreeNode *get_left() {return left;}
+    OrderStatisticTreeNode *get_right() {return right;}
+    void set_p(OrderStatisticTreeNode *parent) {p = parent;}
+    void set_left(OrderStatisticTreeNode *l) {left = l;}
+    void set_right(OrderStatisticTreeNode *r) {right = r;}
     void set_color(char c) {color = c;}
+    void set_size(std::size_t s) {size = s;}
   };
 
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_search(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x, T k)
+  OrderStatisticTreeNode<T> *order_statistic_select(OrderStatisticTreeNode<T> *x, std::size_t i)
+  {
+    std::size_t r = x->get_left()->get_size() + 1;
+    if(i == r)
+      return x;
+    else if(i < r)
+      return order_statistic_select(x->get_left(), i);
+    else
+      return order_statistic_select(x->get_right(), i - r);
+  }
+
+  template <typename T>
+  std::size_t order_statistic_rank(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
+  {
+    std::size_t r = x->get_left()->get_size() + 1;
+    OrderStatisticTreeNode<T> *y = x;
+    while(y != t->get_nil())
+      {
+	if(y == y->get_p()->get_right())
+	  r += y->get_p()->get_left()->get_size() + 1;
+	y = y->get_p();
+      }
+    return r;
+  }
+
+  template <typename T>
+  OrderStatisticTreeNode<T> *order_statistic_tree_search(OrderStatisticTreeNode<T> *null, OrderStatisticTreeNode<T> *x, T k)
   {
     if(x == null || k == x->get_value())
       return x;
     if(k < x->get_value())
-      return red_black_tree_search(null, x->get_left(), k);
+      return order_statistic_tree_search(null, x->get_left(), k);
     else
-      return red_black_tree_search(null, x->get_right(), k);
+      return order_statistic_tree_search(null, x->get_right(), k);
   }
 
   // iterative version of serach
   template <typename T>
-  RedBlackTreeNode<T> *iterative_red_black_tree_search(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x, T k)
+  OrderStatisticTreeNode<T> *iterative_order_statistic_tree_search(OrderStatisticTreeNode<T> *null, OrderStatisticTreeNode<T> *x, T k)
   {
     while(x != null && k != x->get_value())
       {
@@ -71,7 +100,7 @@ namespace CLRS
   }
   
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_minimum(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  OrderStatisticTreeNode<T> *order_statistic_tree_minimum(OrderStatisticTreeNode<T> *null, OrderStatisticTreeNode<T> *x)
   {
     while(x->get_left() != null)
       x = x->get_left();
@@ -79,7 +108,7 @@ namespace CLRS
   }
 
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_maximum(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  OrderStatisticTreeNode<T> *order_statistic_tree_maximum(OrderStatisticTreeNode<T> *null, OrderStatisticTreeNode<T> *x)
   {
     while(x->get_right() != null)
       x = x->get_right();
@@ -87,11 +116,11 @@ namespace CLRS
   }
   
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_successor(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  OrderStatisticTreeNode<T> *order_statistic_tree_successor(OrderStatisticTreeNode<T> *null, OrderStatisticTreeNode<T> *x)
   {
     if(x->get_right() != null)
-      return red_black_tree_minimum(null, x->get_right());
-    RedBlackTreeNode<T> *y = x->get_p();
+      return order_statistic_tree_minimum(null, x->get_right());
+    OrderStatisticTreeNode<T> *y = x->get_p();
     while(y != null && x == y->get_right())
       {
 	x = y;
@@ -101,11 +130,11 @@ namespace CLRS
   }
 
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_predecessor(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  OrderStatisticTreeNode<T> *order_statistic_tree_predecessor(OrderStatisticTreeNode<T> *null, OrderStatisticTreeNode<T> *x)
   {
     if(x->get_left() != null)
-      return red_black_tree_maximum(null, x->get_left());
-    RedBlackTreeNode<T> *y = x->get_p();
+      return order_statistic_tree_maximum(null, x->get_left());
+    OrderStatisticTreeNode<T> *y = x->get_p();
     while(y != null && x == y->get_left())
       {
 	x = y;
@@ -119,9 +148,9 @@ namespace CLRS
    * to keep red black tree legal.
    */
   template <typename T>
-  void left_rotate(RedBlackTree<T> *t, RedBlackTreeNode<T> *x)
+  void left_rotate(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
   {
-    RedBlackTreeNode<T> *y = x->get_right();
+    OrderStatisticTreeNode<T> *y = x->get_right();
     x->set_right(y->get_left());
     if(y->get_left() != t->get_nil())
       y->get_left()->set_p(x);
@@ -133,12 +162,15 @@ namespace CLRS
     else x->get_p()->set_right(y);
     y->set_left(x);
     x->set_p(y);
+    y-set_size(x->get_size());
+    x->set_size(x->get_left()->get_size() +
+		x->get_right()->get_size() + 1);
   }
 
   template <typename T>
-  void right_rotate(RedBlackTree<T> *t, RedBlackTreeNode<T> *x)
+  void right_rotate(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
   {
-    RedBlackTreeNode<T> *y = x->get_left();
+    OrderStatisticTreeNode<T> *y = x->get_left();
     x->set_left(y->get_right());
     if(y->get_right() != t->get_nil())
       y->get_right()->set_p(x);
@@ -150,16 +182,19 @@ namespace CLRS
     else x->get_p()->set_right(y);
     y->set_right(x);
     x->set_p(y);  
+    x-set_size(y->get_size());
+    y->set_size(y->get_left()->get_size() +
+		y->get_right()->get_size() + 1);
   }
 
   template <typename T>
-  void red_black_insert_fixup(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
+  void order_statistic_insert_fixup(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *z)
   {
     while(z->get_p()->get_color() == REDBLACK_RED)
       {
 	if(z->get_p() == z->get_p()->get_p()->get_left())
 	  {
-	    RedBlackTreeNode<T> *y = z->get_p()->get_p()->get_right();
+	    OrderStatisticTreeNode<T> *y = z->get_p()->get_p()->get_right();
 	    if(y->get_color() == REDBLACK_RED)
 	      {
 		z->get_p()->set_color(REDBLACK_BLACK);
@@ -179,7 +214,7 @@ namespace CLRS
 	  }
 	else if(z->get_p() == z->get_p()->get_p()->get_right())
 	  {
-	    RedBlackTreeNode<T> *y = z->get_p()->get_p()->get_left();
+	    OrderStatisticTreeNode<T> *y = z->get_p()->get_p()->get_left();
 	    if(y->get_color() == REDBLACK_RED)
 	      {
 		z->get_p()->set_color(REDBLACK_BLACK);
@@ -202,14 +237,15 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_tree_insert(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
+  void order_statistic_tree_insert(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *z)
   {
-    RedBlackTreeNode<T> *y = t->get_nil();
-    RedBlackTreeNode<T> *x = t->get_root();
+    OrderStatisticTreeNode<T> *y = t->get_nil();
+    OrderStatisticTreeNode<T> *x = t->get_root();
     while(x != t->get_nil())
       {
+	x->set_size(x->get_size() + 1);
 	y = x;
-	if(z->get_value() < x->get_value())
+	if(z->get_key() < x->get_key())
 	  x = x->get_left();
 	else
 	  x = x->get_right();
@@ -217,19 +253,19 @@ namespace CLRS
     z->set_p(y);
     if(y == t->get_nil())
       t->set_root(z);
-    else if(z->get_value() < y->get_value())
+    else if(z->get_key() < y->get_key())
       y->set_left(z);
     else
       y->set_right(z);
     z->set_left(t->get_nil());
     z->set_right(t->get_nil());
     z->set_color(REDBLACK_RED);
-    red_black_insert_fixup(t, z);
+    order_statistic_insert_fixup(t, z);
   }
 
-  // helper functions for red_black_delete
+  // helper functions for order_statistic_delete
   template <typename T>
-  void red_black_transplant(RedBlackTree<T> *t, RedBlackTreeNode<T> *u, RedBlackTreeNode<T> *v)
+  void order_statistic_transplant(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *u, OrderStatisticTreeNode<T> *v)
   {
     if(u->get_p() == t->get_nil())
       t->set_root(v);
@@ -241,9 +277,9 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_delete_fixup(RedBlackTree<T> *t, RedBlackTreeNode<T> *x)
+  void order_statistic_delete_fixup(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
   {
-    RedBlackTreeNode<T> *w;
+    OrderStatisticTreeNode<T> *w;
     while(x != t->get_nil() && x->get_color() == REDBLACK_BLACK)
       if(x == x->get_p()->get_left())
 	{
@@ -307,40 +343,46 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_tree_delete(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
-  {
-    RedBlackTreeNode<T> *y = z, *x;
+  void order_statistic_tree_delete(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *z)
+  { 
+    OrderStatisticTreeNode<T> *y = z, *x;
     char y_original_color = y->get_color();
     if(z->get_left() == t->get_nil())
       {
+	while(y->get_p() != t->get_nil())
+	  y->get_p()->set_size(y->get_p()->get_size() - 1);
 	x = z->get_right();
-	red_black_transplant(t, z, z->get_right());
+	order_statistic_transplant(t, z, z->get_right());
       }
     else if(z->get_right() == t->get_nil())
       {
+	while(y->get_p() != t->get_nil())
+	  y->get_p()->set_size(y->get_p()->get_size() - 1);
 	x = z->get_left();
-	red_black_transplant(t, z, z->get_left());
+	order_statistic_transplant(t, z, z->get_left());
       }
     else
       {
-	y = red_black_tree_minimum(t->get_nil(), z->get_right());
+	y = order_statistic_tree_minimum(t->get_nil(), z->get_right());
 	y_original_color = y->get_color();
+	while(y->get_p() != t->get_nil())
+	  y->get_p()->set_size(y->get_p()->get_size() - 1);
 	x = y->get_right();
 	if(y->get_p() == z)
 	  x->set_p(y);		// why
 	else
 	  {
-	    red_black_transplant(t, y, y->get_right());
+	    order_statistic_transplant(t, y, y->get_right());
 	    y->set_right(z->get_right());
 	    y->get_right()->set_p(y);
 	  }
-	red_black_transplant(t, z, y);
+	order_statistic_transplant(t, z, y);
 	y->set_left(z->get_left());
 	y->get_left()->set_p(y);
 	y->set_color(z->get_color());
       }
     if(y_original_color == REDBLACK_BLACK)
-      red_black_delete_fixup(t, x);
+      order_statistic_delete_fixup(t, x);
   }
 }
 

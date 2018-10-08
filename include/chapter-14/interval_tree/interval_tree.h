@@ -1,68 +1,68 @@
-#ifndef RED_BLACK_TREE_H
-#define RED_BLACK_TREE_H
+#ifndef INTERVAL_TREE
+#define INTERVAL_TREE
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
+#include <utility>
+#include "chapter-13/red_black_tree/red_black_tree.h"
 
 namespace CLRS
 {
-  constexpr char REDBLACK_RED = 'R';
-  constexpr char REDBLACK_BLACK = 'B';
-  template <typename T> class RedBlackTreeNode;
+  template <typename T> class IntervalTreeNode;
 
   template <typename T>
-  class RedBlackTree
+  struct Interval
   {
-    RedBlackTreeNode<T> nil;
-    RedBlackTreeNode<T> *root;
-  public:
-    RedBlackTree() {nil.set_color(REDBLACK_BLACK); root = &nil;}
-    RedBlackTreeNode<T> *get_root() {return root;}
-    RedBlackTreeNode<T> *get_nil() {return &nil;}
-    void set_root(RedBlackTreeNode<T> *r) {root = r;}
+    T low;
+    T high;
   };
 
   template <typename T>
-  class RedBlackTreeNode
+  class IntervalTree
   {
-    T key;
-    char color;
-    RedBlackTreeNode *p = nullptr;
-    RedBlackTreeNode *left = nullptr;
-    RedBlackTreeNode *right = nullptr;
+    IntervalTreeNode<T> nil;
+    IntervalTreeNode<T> *root;
   public:
-    RedBlackTreeNode(T k): key(k) {}
-    RedBlackTreeNode() = default;
+    IntervalTree() {nil.set_color(REDBLACK_BLACK); root = &nil;}
+    IntervalTreeNode<T> *get_root() {return root;}
+    IntervalTreeNode<T> *get_nil() {return &nil;}
+    void set_root(IntervalTreeNode<T> *r) {root = r;}
+  };
+
+  template <typename T>
+  class IntervalTreeNode
+  {
+    Interval<T> inter;
+    T max;
+    char color;
+    IntervalTreeNode *p = nullptr;
+    IntervalTreeNode *left = nullptr;
+    IntervalTreeNode *right = nullptr;
+  public:
+    IntervalTreeNode(Interval<T> i): inter(i) {}
+    IntervalTreeNode() = default;
     char get_color() {return color;}
-    T get_value() {return key;}
-    RedBlackTreeNode *get_p() {return p;}
-    RedBlackTreeNode *get_left() {return left;}
-    RedBlackTreeNode *get_right() {return right;}
-    void set_p(RedBlackTreeNode *parent) {p = parent;}
-    void set_left(RedBlackTreeNode *l) {left = l;}
-    void set_right(RedBlackTreeNode *r) {right = r;}
+    Interval<T> get_interval() {return inter;}
+    T get_value() {return inter.low;}
+    T get_max() {return max;}
+    IntervalTreeNode *get_p() {return p;}
+    IntervalTreeNode *get_left() {return left;}
+    IntervalTreeNode *get_right() {return right;}
+    void set_p(IntervalTreeNode *parent) {p = parent;}
+    void set_left(IntervalTreeNode *l) {left = l;}
+    void set_right(IntervalTreeNode *r) {right = r;}
     void set_color(char c) {color = c;}
   };
 
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_search(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x, T k)
+  IntervalTreeNode<T> *interval_tree_search(IntervalTree<T> *t, Interval<T> i)
   {
-    if(x == null || k == x->get_value())
-      return x;
-    if(k < x->get_value())
-      return red_black_tree_search(null, x->get_left(), k);
-    else
-      return red_black_tree_search(null, x->get_right(), k);
-  }
-
-  // iterative version of serach
-  template <typename T>
-  RedBlackTreeNode<T> *iterative_red_black_tree_search(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x, T k)
-  {
-    while(x != null && k != x->get_value())
+    IntervalTreeNode<T> *x = t->get_root();
+    while(x != t->get_nil() &&
+	  (i.high < x->get_interval().low
+	   || x->get_interval().high < i.low))
       {
-	if(k < x->get_value())
+	if(x->get_left() != t->get_nil()
+	   && x->get_left()->get_max() >= i.low)
 	  x = x->get_left();
 	else
 	  x = x->get_right();
@@ -71,7 +71,7 @@ namespace CLRS
   }
   
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_minimum(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  IntervalTreeNode<T> *interval_tree_minimum(IntervalTreeNode<T> *null, IntervalTreeNode<T> *x)
   {
     while(x->get_left() != null)
       x = x->get_left();
@@ -79,7 +79,7 @@ namespace CLRS
   }
 
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_maximum(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  IntervalTreeNode<T> *interval_tree_maximum(IntervalTreeNode<T> *null, IntervalTreeNode<T> *x)
   {
     while(x->get_right() != null)
       x = x->get_right();
@@ -87,11 +87,11 @@ namespace CLRS
   }
   
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_successor(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  IntervalTreeNode<T> *interval_tree_successor(IntervalTreeNode<T> *null, IntervalTreeNode<T> *x)
   {
     if(x->get_right() != null)
-      return red_black_tree_minimum(null, x->get_right());
-    RedBlackTreeNode<T> *y = x->get_p();
+      return interval_tree_minimum(null, x->get_right());
+    IntervalTreeNode<T> *y = x->get_p();
     while(y != null && x == y->get_right())
       {
 	x = y;
@@ -101,11 +101,11 @@ namespace CLRS
   }
 
   template <typename T>
-  RedBlackTreeNode<T> *red_black_tree_predecessor(RedBlackTreeNode<T> *null, RedBlackTreeNode<T> *x)
+  IntervalTreeNode<T> *interval_tree_predecessor(IntervalTreeNode<T> *null, IntervalTreeNode<T> *x)
   {
     if(x->get_left() != null)
-      return red_black_tree_maximum(null, x->get_left());
-    RedBlackTreeNode<T> *y = x->get_p();
+      return interval_tree_maximum(null, x->get_left());
+    IntervalTreeNode<T> *y = x->get_p();
     while(y != null && x == y->get_left())
       {
 	x = y;
@@ -119,9 +119,9 @@ namespace CLRS
    * to keep red black tree legal.
    */
   template <typename T>
-  void left_rotate(RedBlackTree<T> *t, RedBlackTreeNode<T> *x)
+  void left_rotate(IntervalTree<T> *t, IntervalTreeNode<T> *x)
   {
-    RedBlackTreeNode<T> *y = x->get_right();
+    IntervalTreeNode<T> *y = x->get_right();
     x->set_right(y->get_left());
     if(y->get_left() != t->get_nil())
       y->get_left()->set_p(x);
@@ -136,9 +136,9 @@ namespace CLRS
   }
 
   template <typename T>
-  void right_rotate(RedBlackTree<T> *t, RedBlackTreeNode<T> *x)
+  void right_rotate(IntervalTree<T> *t, IntervalTreeNode<T> *x)
   {
-    RedBlackTreeNode<T> *y = x->get_left();
+    IntervalTreeNode<T> *y = x->get_left();
     x->set_left(y->get_right());
     if(y->get_right() != t->get_nil())
       y->get_right()->set_p(x);
@@ -153,13 +153,13 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_insert_fixup(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
+  void red_black_insert_fixup( IntervalTree<T> *t, IntervalTreeNode<T> *z)
   {
     while(z->get_p()->get_color() == REDBLACK_RED)
       {
 	if(z->get_p() == z->get_p()->get_p()->get_left())
 	  {
-	    RedBlackTreeNode<T> *y = z->get_p()->get_p()->get_right();
+	    IntervalTreeNode<T> *y = z->get_p()->get_p()->get_right();
 	    if(y->get_color() == REDBLACK_RED)
 	      {
 		z->get_p()->set_color(REDBLACK_BLACK);
@@ -179,7 +179,7 @@ namespace CLRS
 	  }
 	else if(z->get_p() == z->get_p()->get_p()->get_right())
 	  {
-	    RedBlackTreeNode<T> *y = z->get_p()->get_p()->get_left();
+	    IntervalTreeNode<T> *y = z->get_p()->get_p()->get_left();
 	    if(y->get_color() == REDBLACK_RED)
 	      {
 		z->get_p()->set_color(REDBLACK_BLACK);
@@ -202,10 +202,10 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_tree_insert(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
+  void interval_tree_insert(IntervalTree<T> *t, IntervalTreeNode<T> *z)
   {
-    RedBlackTreeNode<T> *y = t->get_nil();
-    RedBlackTreeNode<T> *x = t->get_root();
+    IntervalTreeNode<T> *y = t->get_nil();
+    IntervalTreeNode<T> *x = t->get_root();
     while(x != t->get_nil())
       {
 	y = x;
@@ -229,7 +229,7 @@ namespace CLRS
 
   // helper functions for red_black_delete
   template <typename T>
-  void red_black_transplant(RedBlackTree<T> *t, RedBlackTreeNode<T> *u, RedBlackTreeNode<T> *v)
+  void red_black_transplant(IntervalTree<T> *t, IntervalTreeNode<T> *u, IntervalTreeNode<T> *v)
   {
     if(u->get_p() == t->get_nil())
       t->set_root(v);
@@ -241,9 +241,9 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_delete_fixup(RedBlackTree<T> *t, RedBlackTreeNode<T> *x)
+  void red_black_delete_fixup(IntervalTree<T> *t, IntervalTreeNode<T> *x)
   {
-    RedBlackTreeNode<T> *w;
+    IntervalTreeNode<T> *w;
     while(x != t->get_nil() && x->get_color() == REDBLACK_BLACK)
       if(x == x->get_p()->get_left())
 	{
@@ -307,9 +307,9 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_tree_delete(RedBlackTree<T> *t, RedBlackTreeNode<T> *z)
+  void interval_tree_delete(IntervalTree<T> *t, IntervalTreeNode<T> *z)
   {
-    RedBlackTreeNode<T> *y = z, *x;
+    IntervalTreeNode<T> *y = z, *x;
     char y_original_color = y->get_color();
     if(z->get_left() == t->get_nil())
       {
@@ -323,7 +323,7 @@ namespace CLRS
       }
     else
       {
-	y = red_black_tree_minimum(t->get_nil(), z->get_right());
+	y = interval_tree_minimum(t->get_nil(), z->get_right());
 	y_original_color = y->get_color();
 	x = y->get_right();
 	if(y->get_p() == z)
