@@ -14,6 +14,8 @@ namespace CLRS
   {
     T low;
     T high;
+    Interval(T l, T h): low(l), high(h) {}
+    Interval() = default;
   };
 
   template <typename T>
@@ -38,15 +40,17 @@ namespace CLRS
     IntervalTreeNode *left = nullptr;
     IntervalTreeNode *right = nullptr;
   public:
-    IntervalTreeNode(Interval<T> i): inter(i) {}
+    IntervalTreeNode(T l, T h): inter(Interval<T>(l, h)), max(h) {}
     IntervalTreeNode() = default;
     char get_color() {return color;}
     Interval<T> get_interval() {return inter;}
     T get_value() {return inter.low;}
+    T get_high()  {return inter.high;}
     T get_max() {return max;}
     IntervalTreeNode *get_p() {return p;}
     IntervalTreeNode *get_left() {return left;}
     IntervalTreeNode *get_right() {return right;}
+    void set_max(T m) {max = m;}
     void set_p(IntervalTreeNode *parent) {p = parent;}
     void set_left(IntervalTreeNode *l) {left = l;}
     void set_right(IntervalTreeNode *r) {right = r;}
@@ -112,6 +116,34 @@ namespace CLRS
 	y = y->get_p();
       }
     return y;
+  }
+
+  // helper functions to update the max data member of nodes
+  // TODO: its efficiency is O(n), expectation is O(lgn), which needs update in the future.
+  template <typename T>
+  void update_max(IntervalTreeNode<T> *null, IntervalTreeNode<T> *x)
+  {
+    if(x->get_left() != null && x->get_right() != null)
+      {
+	update_max(null, x->get_left());
+	update_max(null, x->get_right());
+	x->set_max(std::max(x->get_high(),
+			    std::max(x->get_left()->get_max(),
+				     x->get_right()->get_max())));
+      }
+    else if(x->get_left() != null && x->get_right() == null)
+      {
+	update_max(null, x->get_left());
+	x->set_max(std::max(x->get_high(),
+			    x->get_left()->get_max()));
+      }
+
+    else if(x->get_left() == null && x->get_right() != null)
+      {
+	update_max(null, x->get_right());
+	x->set_max(std::max(x->get_high(),
+			    x->get_right()->get_max()));
+      }
   }
 
   /* 
@@ -225,6 +257,7 @@ namespace CLRS
     z->set_right(t->get_nil());
     z->set_color(REDBLACK_RED);
     red_black_insert_fixup(t, z);
+    update_max(t->get_nil(), t->get_root());
   }
 
   // helper functions for red_black_delete
@@ -341,6 +374,7 @@ namespace CLRS
       }
     if(y_original_color == REDBLACK_BLACK)
       red_black_delete_fixup(t, x);
+    update_max(t->get_nil(), t->get_root());
   }
 }
 

@@ -3,7 +3,7 @@
 
 using namespace CLRS;
 
-TEST(RedBlackRedBlackTree, InsertSearh1)
+TEST(RedBlackTree, InsertSearh1)
 {
   RedBlackTree<int> t;
   RedBlackTreeNode<int> n1(6);
@@ -24,7 +24,7 @@ TEST(RedBlackRedBlackTree, InsertSearh1)
   EXPECT_EQ(t.get_nil(), red_black_tree_search(t.get_nil(), t.get_root(), 4));
 }
 
-TEST(RedBlackRedBlackTree, InsertSearh2)
+TEST(RedBlackTree, InsertSearh2)
 {
   RedBlackTree<int> t;
   RedBlackTreeNode<int> n1(11);
@@ -52,7 +52,7 @@ TEST(RedBlackRedBlackTree, InsertSearh2)
   EXPECT_EQ(&n5, t.get_root());
 }
 
-TEST(RedBlackRedBlackTree, MinimumMaximum)
+TEST(RedBlackTree, MinimumMaximum)
 {
   RedBlackTree<int> t;
   RedBlackTreeNode<int> n1(6);
@@ -71,7 +71,7 @@ TEST(RedBlackRedBlackTree, MinimumMaximum)
   EXPECT_EQ(2, red_black_tree_minimum(t.get_nil(), t.get_root())->get_value());
 }
 
-TEST(RedBlackRedBlackTree, SuccessorPredecessor)
+TEST(RedBlackTree, SuccessorPredecessor)
 {
   RedBlackTree<int> t;
   RedBlackTreeNode<int> n1(6);
@@ -90,7 +90,7 @@ TEST(RedBlackRedBlackTree, SuccessorPredecessor)
   EXPECT_EQ(5, red_black_tree_predecessor(t.get_nil(), &n4)->get_value());
 }
 
-TEST(RedBlackRedBlackTree, Delete)
+TEST(RedBlackTree, Delete)
 {
   RedBlackTree<int> t;
   RedBlackTreeNode<int> n1(6);
@@ -105,8 +105,6 @@ TEST(RedBlackRedBlackTree, Delete)
   red_black_tree_insert(&t, &n4);
   red_black_tree_insert(&t, &n5);
   red_black_tree_insert(&t, &n6);
-  EXPECT_EQ(7, red_black_tree_successor(t.get_nil(), &n1)->get_value());
-  EXPECT_EQ(5, red_black_tree_predecessor(t.get_nil(), &n4)->get_value());
   red_black_tree_delete(&t, &n3);
   EXPECT_EQ(t.get_nil(), red_black_tree_search(t.get_nil(), t.get_root(), 2));
   EXPECT_EQ(7, red_black_tree_successor(t.get_nil(), &n1)->get_value());

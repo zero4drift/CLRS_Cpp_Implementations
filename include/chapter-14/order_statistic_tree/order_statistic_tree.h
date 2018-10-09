@@ -162,7 +162,7 @@ namespace CLRS
     else x->get_p()->set_right(y);
     y->set_left(x);
     x->set_p(y);
-    y-set_size(x->get_size());
+    y->set_size(x->get_size());
     x->set_size(x->get_left()->get_size() +
 		x->get_right()->get_size() + 1);
   }
@@ -182,7 +182,7 @@ namespace CLRS
     else x->get_p()->set_right(y);
     y->set_right(x);
     x->set_p(y);  
-    x-set_size(y->get_size());
+    x->set_size(y->get_size());
     y->set_size(y->get_left()->get_size() +
 		y->get_right()->get_size() + 1);
   }
@@ -350,14 +350,21 @@ namespace CLRS
     if(z->get_left() == t->get_nil())
       {
 	while(y->get_p() != t->get_nil())
-	  y->get_p()->set_size(y->get_p()->get_size() - 1);
+	  {
+	    y->get_p()->set_size(y->get_p()->get_size() - 1);
+	    y = y->get_p();
+	  }
 	x = z->get_right();
 	order_statistic_transplant(t, z, z->get_right());
       }
     else if(z->get_right() == t->get_nil())
       {
 	while(y->get_p() != t->get_nil())
-	  y->get_p()->set_size(y->get_p()->get_size() - 1);
+	  {
+	    y->get_p()->set_size(y->get_p()->get_size() - 1);
+	    y = y->get_p();
+	  }
+	x = z->get_right();
 	x = z->get_left();
 	order_statistic_transplant(t, z, z->get_left());
       }
@@ -366,7 +373,10 @@ namespace CLRS
 	y = order_statistic_tree_minimum(t->get_nil(), z->get_right());
 	y_original_color = y->get_color();
 	while(y->get_p() != t->get_nil())
-	  y->get_p()->set_size(y->get_p()->get_size() - 1);
+	  {
+	    y->get_p()->set_size(y->get_p()->get_size() - 1);
+	    y = y->get_p();
+	  }
 	x = y->get_right();
 	if(y->get_p() == z)
 	  x->set_p(y);		// why
