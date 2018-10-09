@@ -148,7 +148,7 @@ namespace CLRS
    * to keep red black tree legal.
    */
   template <typename T>
-  void left_rotate(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
+  void order_statistic_left_rotate(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
   {
     OrderStatisticTreeNode<T> *y = x->get_right();
     x->set_right(y->get_left());
@@ -168,7 +168,7 @@ namespace CLRS
   }
 
   template <typename T>
-  void right_rotate(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
+  void order_statistic_right_rotate(OrderStatisticTree<T> *t, OrderStatisticTreeNode<T> *x)
   {
     OrderStatisticTreeNode<T> *y = x->get_left();
     x->set_left(y->get_right());
@@ -206,11 +206,11 @@ namespace CLRS
 	    else if(z == z->get_p()->get_right())
 	      {
 		z = z->get_p();
-		left_rotate(t, z);
+		order_statistic_left_rotate(t, z);
 	      }
 	    z->get_p()->set_color(REDBLACK_BLACK);
 	    z->get_p()->get_p()->set_color(REDBLACK_RED);
-	    right_rotate(t, z->get_p()->get_p());
+	    order_statistic_right_rotate(t, z->get_p()->get_p());
 	  }
 	else if(z->get_p() == z->get_p()->get_p()->get_right())
 	  {
@@ -226,11 +226,11 @@ namespace CLRS
 	    else if(z == z->get_p()->get_left())
 	      {
 		z = z->get_p();
-		right_rotate(t, z);
+		order_statistic_right_rotate(t, z);
 	      }
 	    z->get_p()->set_color(REDBLACK_BLACK);
 	    z->get_p()->get_p()->set_color(REDBLACK_RED);
-	    left_rotate(t, z->get_p()->get_p());
+	    order_statistic_left_rotate(t, z->get_p()->get_p());
 	  }
 	t->get_root()->set_color(REDBLACK_BLACK);
       }
@@ -288,7 +288,7 @@ namespace CLRS
 	    {
 	      w->set_color(REDBLACK_BLACK);
 	      x->get_p()->set_color(REDBLACK_RED);
-	      left_rotate(t, x->get_p());
+	      order_statistic_left_rotate(t, x->get_p());
 	      w = x->get_p()->get_right(); 
 	    }
 	  if(w->get_left()->get_color() == REDBLACK_BLACK
@@ -302,12 +302,12 @@ namespace CLRS
 	    {
 	      w->get_left()->set_color(REDBLACK_BLACK);
 	      w->set_color(REDBLACK_RED);
-	      right_rotate(t, w);
+	      order_statistic_right_rotate(t, w);
 	      w = x->get_p()->get_right();
 	    }
 	  w->set_color(x->get_p()->get_color());
 	  x->get_p()->set_color(REDBLACK_BLACK);
-	  left_rotate(t, x->get_p());
+	  order_statistic_left_rotate(t, x->get_p());
 	  x = t->get_root();
 	}
       else if(x == x->get_p()->get_right())
@@ -317,7 +317,7 @@ namespace CLRS
 	    {
 	      w->set_color(REDBLACK_BLACK);
 	      x->get_p()->set_color(REDBLACK_RED);
-	      right_rotate(t, x->get_p());
+	      order_statistic_right_rotate(t, x->get_p());
 	      w = x->get_p()->get_left(); 
 	    }
 	  if(w->get_right()->get_color() == REDBLACK_BLACK
@@ -331,12 +331,12 @@ namespace CLRS
 	    {
 	      w->get_right()->set_color(REDBLACK_BLACK);
 	      w->set_color(REDBLACK_RED);
-	      left_rotate(t, w);
+	      order_statistic_left_rotate(t, w);
 	      w = x->get_p()->get_left();
 	    }
 	  w->set_color(x->get_p()->get_color());
 	  x->get_p()->set_color(REDBLACK_BLACK);
-	  right_rotate(t, x->get_p());
+	  order_statistic_right_rotate(t, x->get_p());
 	  x = t->get_root();
 	}
     x->set_color(REDBLACK_BLACK);

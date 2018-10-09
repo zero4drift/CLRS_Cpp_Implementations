@@ -151,7 +151,7 @@ namespace CLRS
    * to keep red black tree legal.
    */
   template <typename T>
-  void left_rotate(IntervalTree<T> *t, IntervalTreeNode<T> *x)
+  void interval_tree_left_rotate(IntervalTree<T> *t, IntervalTreeNode<T> *x)
   {
     IntervalTreeNode<T> *y = x->get_right();
     x->set_right(y->get_left());
@@ -165,10 +165,16 @@ namespace CLRS
     else x->get_p()->set_right(y);
     y->set_left(x);
     x->set_p(y);
+    // x->set_max(std::max(x->get_high(),
+    // 			std::max(x->get_left()->get_max(),
+    // 				 x->get_right()->get_max())));
+    // y->set_max(std::max(y->get_high(),
+    // 			std::max(y->get_left()->get_max(),
+    // 				 y->get_right()->get_max())));
   }
 
   template <typename T>
-  void right_rotate(IntervalTree<T> *t, IntervalTreeNode<T> *x)
+  void interval_tree_right_rotate(IntervalTree<T> *t, IntervalTreeNode<T> *x)
   {
     IntervalTreeNode<T> *y = x->get_left();
     x->set_left(y->get_right());
@@ -182,6 +188,12 @@ namespace CLRS
     else x->get_p()->set_right(y);
     y->set_right(x);
     x->set_p(y);  
+    // y->set_max(std::max(y->get_high(),
+    // 			std::max(y->get_left()->get_max(),
+    // 				 y->get_right()->get_max())));
+    // x->set_max(std::max(x->get_high(),
+    // 			std::max(x->get_left()->get_max(),
+    // 				 x->get_right()->get_max())));
   }
 
   template <typename T>
@@ -203,11 +215,11 @@ namespace CLRS
 	    else if(z == z->get_p()->get_right())
 	      {
 		z = z->get_p();
-		left_rotate(t, z);
+		interval_tree_left_rotate(t, z);
 	      }
 	    z->get_p()->set_color(REDBLACK_BLACK);
 	    z->get_p()->get_p()->set_color(REDBLACK_RED);
-	    right_rotate(t, z->get_p()->get_p());
+	    interval_tree_right_rotate(t, z->get_p()->get_p());
 	  }
 	else if(z->get_p() == z->get_p()->get_p()->get_right())
 	  {
@@ -223,11 +235,11 @@ namespace CLRS
 	    else if(z == z->get_p()->get_left())
 	      {
 		z = z->get_p();
-		right_rotate(t, z);
+		interval_tree_right_rotate(t, z);
 	      }
 	    z->get_p()->set_color(REDBLACK_BLACK);
 	    z->get_p()->get_p()->set_color(REDBLACK_RED);
-	    left_rotate(t, z->get_p()->get_p());
+	    interval_tree_left_rotate(t, z->get_p()->get_p());
 	  }
 	t->get_root()->set_color(REDBLACK_BLACK);
       }
@@ -285,7 +297,7 @@ namespace CLRS
 	    {
 	      w->set_color(REDBLACK_BLACK);
 	      x->get_p()->set_color(REDBLACK_RED);
-	      left_rotate(t, x->get_p());
+	      interval_tree_left_rotate(t, x->get_p());
 	      w = x->get_p()->get_right(); 
 	    }
 	  if(w->get_left()->get_color() == REDBLACK_BLACK
@@ -299,12 +311,12 @@ namespace CLRS
 	    {
 	      w->get_left()->set_color(REDBLACK_BLACK);
 	      w->set_color(REDBLACK_RED);
-	      right_rotate(t, w);
+	      interval_tree_right_rotate(t, w);
 	      w = x->get_p()->get_right();
 	    }
 	  w->set_color(x->get_p()->get_color());
 	  x->get_p()->set_color(REDBLACK_BLACK);
-	  left_rotate(t, x->get_p());
+	  interval_tree_left_rotate(t, x->get_p());
 	  x = t->get_root();
 	}
       else if(x == x->get_p()->get_right())
@@ -314,7 +326,7 @@ namespace CLRS
 	    {
 	      w->set_color(REDBLACK_BLACK);
 	      x->get_p()->set_color(REDBLACK_RED);
-	      right_rotate(t, x->get_p());
+	      interval_tree_right_rotate(t, x->get_p());
 	      w = x->get_p()->get_left(); 
 	    }
 	  if(w->get_right()->get_color() == REDBLACK_BLACK
@@ -328,12 +340,12 @@ namespace CLRS
 	    {
 	      w->get_right()->set_color(REDBLACK_BLACK);
 	      w->set_color(REDBLACK_RED);
-	      left_rotate(t, w);
+	      interval_tree_left_rotate(t, w);
 	      w = x->get_p()->get_left();
 	    }
 	  w->set_color(x->get_p()->get_color());
 	  x->get_p()->set_color(REDBLACK_BLACK);
-	  right_rotate(t, x->get_p());
+	  interval_tree_right_rotate(t, x->get_p());
 	  x = t->get_root();
 	}
     x->set_color(REDBLACK_BLACK);
