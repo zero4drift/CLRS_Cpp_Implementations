@@ -3,6 +3,7 @@
 
 
 #include <utility>
+#include <iostream>
 #include "chapter-13/red_black_tree/red_black_tree.h"
 
 namespace CLRS
@@ -118,8 +119,31 @@ namespace CLRS
     return y;
   }
 
+  // helper functions to update the max data member of nodes(single chain)
+  // TODO: may has bug.
+  template <typename T>
+  void update_max_chain(IntervalTreeNode<T> *null, IntervalTreeNode<T> *y)
+  {
+    while(y != null)
+      {
+	if(y->get_left() != null && y->get_right() != null)
+	  y->set_max(std::max(y->get_high(),
+			      std::max(y->get_left()->get_max(),
+				       y->get_right()->get_max())));
+	else if(y->get_left() != null && y->get_right() == null)
+	  y->set_max(std::max(y->get_high(),
+			      y->get_left()->get_max()));
+
+	else if(y->get_left() == null && y->get_right() != null)
+	  y->set_max(std::max(y->get_high(),
+			      y->get_right()->get_max()));
+	y = y->get_p();
+      }
+  }
+
   // helper functions to update the max data member of nodes
-  // TODO: its efficiency is O(n), expectation is O(lgn), which needs update in the future.
+  // though low efficiency, but correctness guaranteed.
+  // DONE: its efficiency is O(n), expectation is O(lgn), which needs update in the future.
   template <typename T>
   void update_max(IntervalTreeNode<T> *null, IntervalTreeNode<T> *x)
   {
@@ -269,12 +293,13 @@ namespace CLRS
     z->set_right(t->get_nil());
     z->set_color(REDBLACK_RED);
     red_black_insert_fixup(t, z);
-    update_max(t->get_nil(), t->get_root());
+    update_max_chain(t->get_nil(), y);
+    // update_max(t->get_nil(), t->get_root());
   }
 
-  // helper functions for red_black_delete
+  // helper functions for interval_tree_delete
   template <typename T>
-  void red_black_transplant(IntervalTree<T> *t, IntervalTreeNode<T> *u, IntervalTreeNode<T> *v)
+  void interval_transplant(IntervalTree<T> *t, IntervalTreeNode<T> *u, IntervalTreeNode<T> *v)
   {
     if(u->get_p() == t->get_nil())
       t->set_root(v);
@@ -286,7 +311,7 @@ namespace CLRS
   }
 
   template <typename T>
-  void red_black_delete_fixup(IntervalTree<T> *t, IntervalTreeNode<T> *x)
+  void interval_delete_fixup(IntervalTree<T> *t, IntervalTreeNode<T> *x)
   {
     IntervalTreeNode<T> *w;
     while(x != t->get_nil() && x->get_color() == REDBLACK_BLACK)
@@ -359,12 +384,12 @@ namespace CLRS
     if(z->get_left() == t->get_nil())
       {
 	x = z->get_right();
-	red_black_transplant(t, z, z->get_right());
+	interval_transplant(t, z, z->get_right());
       }
     else if(z->get_right() == t->get_nil())
       {
 	x = z->get_left();
-	red_black_transplant(t, z, z->get_left());
+	interval_transplant(t, z, z->get_left());
       }
     else
       {
@@ -375,18 +400,20 @@ namespace CLRS
 	  x->set_p(y);		// why
 	else
 	  {
-	    red_black_transplant(t, y, y->get_right());
+	    interval_transplant(t, y, y->get_right());
 	    y->set_right(z->get_right());
 	    y->get_right()->set_p(y);
 	  }
-	red_black_transplant(t, z, y);
+	interval_transplant(t, z, y);
 	y->set_left(z->get_left());
 	y->get_left()->set_p(y);
 	y->set_color(z->get_color());
-      }
+      } 
+    y = y->get_p();
+    update_max_chain(t->get_nil(), y);
     if(y_original_color == REDBLACK_BLACK)
-      red_black_delete_fixup(t, x);
-    update_max(t->get_nil(), t->get_root());
+      interval_delete_fixup(t, x);
+    // update_max(t->get_nil(), t->get_root());
   }
 }
 
