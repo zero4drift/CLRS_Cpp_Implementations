@@ -7,9 +7,12 @@
 
 namespace CLRS
 {
+  constexpr unsigned CUT_ROD_PRICES[11] =
+    {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
 
   template <std::size_t m>
-  unsigned recursive_cut_rod(const unsigned (&prices)[m], unsigned n)
+  unsigned recursive_cut_rod(const unsigned (&prices)[m],
+			     unsigned n)
   {
     if(n == 0)
       return 0;
