@@ -49,6 +49,41 @@ namespace CLRS
 	std::cout << ")";
       }
   }
+
+  template <std::size_t n>
+  unsigned lookup_chain(unsigned (&m)[n][n],
+			unsigned (&p)[n],
+			std::size_t i,
+			std::size_t j)
+  {
+    if(m[i][j] < -1)
+      return m[i][j];
+    if(i == j)
+      m[i][j] = 0;
+    else
+      {
+	for(std::size_t k = i; k <= j - 1; ++k)
+	  {
+	    std::size_t q = lookup_chain(m, p, i, k)
+	      + lookup_chain(m, p, k + 1, j)
+	      + p[i - 1]*p[k]*p[j];
+	    if(q < m[i][j])
+	      m[i][j] = q;
+	  }
+      }
+    return m[i][j];
+  }
+
+  template <std::size_t n>
+  unsigned memoized_matrix_chain(unsigned (&p)[n])
+  {
+    std::size_t x = n - 1;
+    unsigned m[n][n];
+    for(std::size_t i = 0; i != n; ++i)
+      for(std::size_t j = 0; j != n; ++j)
+	m[i][j] = -1;
+    return lookup_chain(m, p, 1, x);
+  }
 }
 
 
