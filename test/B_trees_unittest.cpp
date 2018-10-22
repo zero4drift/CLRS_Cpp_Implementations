@@ -31,11 +31,11 @@ TEST(BTrees, Search)
   auto c5 = std::make_shared<BTreeNode<char, 3>>(v6);
   r->set_leaf(false);
   t.set_root(r);
-  r->childs_push_back(c1);
-  r->childs_push_back(c2);
-  r->childs_push_back(c3);
-  r->childs_push_back(c4);
-  r->childs_push_back(c5);
+  r->push_back_child(c1);
+  r->push_back_child(c2);
+  r->push_back_child(c3);
+  r->push_back_child(c4);
+  r->push_back_child(c5);
   // a tree formed with hack method to make a search test
   auto result1 = b_tree_search(r, 'N');
   EXPECT_EQ('N', result1.first->get_key(result1.second));
@@ -62,11 +62,11 @@ TEST(BTrees, Insert)
   auto c5 = std::make_shared<BTreeNode<char, 3>>(v6);
   r->set_leaf(false);
   t.set_root(r);
-  r->childs_push_back(c1);
-  r->childs_push_back(c2);
-  r->childs_push_back(c3);
-  r->childs_push_back(c4);
-  r->childs_push_back(c5);
+  r->push_back_child(c1);
+  r->push_back_child(c2);
+  r->push_back_child(c3);
+  r->push_back_child(c4);
+  r->push_back_child(c5);
   // a tree formed with hack method to make a insert test
   // fig-18.7
   // step 1 insert B
@@ -121,15 +121,15 @@ TEST(BTrees, Delete)
   t.set_root(r);
   c1->set_leaf(false);
   c2->set_leaf(false);
-  r->childs_push_back(c1);
-  r->childs_push_back(c2);
-  c1->childs_push_back(c3);
-  c1->childs_push_back(c4);
-  c1->childs_push_back(c5);
-  c1->childs_push_back(c6);
-  c2->childs_push_back(c7);
-  c2->childs_push_back(c8);
-  c2->childs_push_back(c9);
+  r->push_back_child(c1);
+  r->push_back_child(c2);
+  c1->push_back_child(c3);
+  c1->push_back_child(c4);
+  c1->push_back_child(c5);
+  c1->push_back_child(c6);
+  c2->push_back_child(c7);
+  c2->push_back_child(c8);
+  c2->push_back_child(c9);
   // a tree formed with hack method to make a insert test
   // fig-18.8
   // step 1 case 1: delete F

@@ -61,7 +61,7 @@ namespace CLRS
     bool get_leaf() const {return leaf;}
     void set_leaf(bool l) {leaf = l;}
     T get_key(std::size_t i) const {return keys[i];}
-    void keys_push_back(T k) {keys.push_back(k);}
+    void push_back_key(T k) {keys.push_back(k);}
     void insert_key(T k, std::size_t i)
     {auto it = keys.begin() + i; keys.insert(it, k);}
     void delete_key(std::size_t i)
@@ -69,7 +69,7 @@ namespace CLRS
     void replace_key(T k, std::size_t i) {keys[i] = k;}
     std::shared_ptr<BTreeNode> get_child(std::size_t i) const
     {return childs[i];}
-    void childs_push_back(std::shared_ptr<BTreeNode> n)
+    void push_back_child(std::shared_ptr<BTreeNode> n)
     {childs.push_back(n);}
     void insert_child(std::shared_ptr<BTreeNode> n, std::size_t i)
     {auto it = childs.begin() + i; childs.insert(it, n);}
@@ -109,13 +109,14 @@ namespace CLRS
     z->set_leaf(y->get_leaf());
     z->set_n(D - 1);
     for(std::size_t j = 1; j <= D - 1; ++j)
-      z->keys_push_back(y->get_key(j + D - 1));
+      z->push_back_key(y->get_key(j + D - 1));
     if(!y->get_leaf())
       for(std::size_t j = 1; j <= D; ++j)
-	z->childs_push_back(y->get_child(j + D - 1));
-    y->set_n(D - 1);
+	z->push_back_child(y->get_child(j + D - 1));
     x->insert_child(z, i + 1);
     x->insert_key(y->get_key(D - 1), i);
+    y->delete_key(D - 1);
+    y->set_n(D - 1);
     x->set_n(x->get_n() + 1);
   }
 
@@ -128,7 +129,7 @@ namespace CLRS
 	auto s = std::make_shared<BTreeNode<T, D>>();
 	t->set_root(s);
 	s->set_leaf(false);
-	s->childs_push_back(r);
+	s->push_back_child(r);
 	b_tree_split_child(s, 0);
 	b_tree_insert_nonfull(s, k);
       }
@@ -198,17 +199,17 @@ namespace CLRS
 	      {
 		auto y = x->get_child(i - 1);
 		auto z = x->get_child(i);
-		y->keys_push_back(k);
+		y->push_back_key(k);
 		y->set_n(y->get_n() + 1);
 		x->delete_key(i - 1);
 		x->delete_child(i);
 		x->set_n(x->get_n() - 1);
 		for(std::size_t n = 0; n < z->get_n(); ++n)
-		  y->keys_push_back(z->get_key(n));
+		  y->push_back_key(z->get_key(n));
 		y->set_n(z->get_n() + y->get_n());
 		if(!y->get_leaf())
 		  for(std::size_t n = 0; n <= z->get_n(); ++n)
-		    y->childs_push_back(z->get_child(n));
+		    y->push_back_child(z->get_child(n));
 		b_tree_delete(t, y, k);
 	      }
 	  }
@@ -218,7 +219,7 @@ namespace CLRS
 	auto self = x->get_child(i - 1);
 	std::shared_ptr<BTreeNode<T, D>> brother;
 	// case 3a
-	if(x->get_child(i - 1)->get_n() == D - 1)
+	if(self->get_n() == D - 1)
 	  {
 	    if(i - 1 > 0 && x->get_child(i - 2)->get_n() >= D)
 	      {
@@ -243,12 +244,12 @@ namespace CLRS
 		std::size_t bl = brother->get_n();
 		T down = x->get_key(i - 1);
 		T up = brother->get_key(0);
-		self->keys_push_back(down);
+		self->push_back_key(down);
 		self->set_n(x->get_n() + 1);
 		x->replace_key(up, i - 1);
 		if(!brother->get_leaf())
 		  {
-		    self->childs_push_back(brother->get_child(0));
+		    self->push_back_child(brother->get_child(0));
 		    brother->delete_child(0);
 		  }
 		brother->delete_key(0);
@@ -261,13 +262,13 @@ namespace CLRS
 		  {
 		    brother = x->get_child(i);
 		    T down = x->get_key(i - 1);
-		    self->keys_push_back(down);
+		    self->push_back_key(down);
 		    self->set_n(self->get_n() + 1);
 		    for(std::size_t i = 0; i < brother->get_n(); ++i)
-		      self->keys_push_back(brother->get_key(i));
+		      self->push_back_key(brother->get_key(i));
 		    if(!self->get_leaf())
 		      for(std::size_t i = 0; i <= brother->get_n(); ++i)
-			self->childs_push_back(brother->get_child(i));
+			self->push_back_child(brother->get_child(i));
 		    self->set_n(self->get_n() + brother->get_n());
 		    x->delete_key(i - 1);
 		    x->delete_child(i);
@@ -279,13 +280,13 @@ namespace CLRS
 		  {
 		    brother = x->get_child(i - 2);
 		    T down = x->get_key(i - 2);
-		    brother->keys_push_back(down);
+		    brother->push_back_key(down);
 		    brother->set_n(brother->get_n() + 1);
 		    for(std::size_t i = 0; i < self->get_n(); ++i)
-		      brother->keys_push_back(self->get_key(i));
+		      brother->push_back_key(self->get_key(i));
 		    if(!brother->get_leaf())
 		      for(std::size_t i = 0; i <= self->get_n(); ++i)
-			brother->childs_push_back(self->get_child(i));
+			brother->push_back_child(self->get_child(i));
 		    brother->set_n(self->get_n() + brother->get_n());
 		    x->delete_key(i - 2);
 		    x->delete_child(i - 1);
