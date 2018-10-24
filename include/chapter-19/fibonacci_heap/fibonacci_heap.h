@@ -25,7 +25,7 @@ namespace CLRS
   template <typename T>
   std::shared_ptr<FiboHeapTreeNode<T>> fib_heap_extract_min(FiboHeap<T> &);
   template <typename T>
-  void consolicate(FiboHeap<T> &);
+  void consolidate(FiboHeap<T> &);
   template <typename T>
   void fib_heap_link(const FiboHeap<T> &,
 		     const std::shared_ptr<FiboHeapTreeNode<T>> &,
@@ -40,7 +40,7 @@ namespace CLRS
 	   const std::shared_ptr<FiboHeapTreeNode<T>> &);
   template <typename T>
   void cascading_cut(const FiboHeap<T> &,
-		     const std::shared_ptr<FiboHeapTreeNode<T>>);
+		     const std::shared_ptr<FiboHeapTreeNode<T>> &);
   // just assign itself to the left and right of node. 
   template <typename T>
   void fib_heap_list_make(const std::shared_ptr<FiboHeapTreeNode<T>> &);
