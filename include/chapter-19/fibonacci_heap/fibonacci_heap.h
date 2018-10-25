@@ -2,10 +2,10 @@
 #define FIBONACCI_H
 
 
-#include <stdexcept>
 #include <math.h>
 #include <memory>
 #include <utility>
+#include <stdexcept>
 
 namespace CLRS
 {
@@ -118,9 +118,9 @@ namespace CLRS
   std::size_t fib_maximum_degree(std::size_t n)
   {
     // loga(b) = log2(b) / log2(a)
-    unsigned gold = (1 + std::sqrt(2)) / 2;
-    unsigned below = std::log2(gold);
-    unsigned top = std::log2(n);
+    double gold = (1 + std::sqrt(2)) / 2;
+    double below = std::log2(gold);
+    double top = std::log2(n);
     return top / below;
   } 
 
@@ -152,7 +152,7 @@ namespace CLRS
     void set_key(T k) {key = k;}
     bool get_mark() const {return mark;}
     void set_mark() {mark = true;}
-    void clear_mar() {mark = false;}
+    void clear_mark() {mark = false;}
     std::size_t get_degree() const {return degree;}
     void incr_degree() {++degree;}
     void decr_degree() {--degree;}
@@ -209,22 +209,24 @@ namespace CLRS
   FibHeap<T> fib_heap_union(const FibHeap<T> &h1, const FibHeap<T> &h2)
   {
     FibHeap<T> h;
-    h.set_min(h1->get_min());
+    h.set_min(h1.get_min());
     auto h_min = h.get_min();
-    auto h2_n = h2->get_min();
+    auto h2_n = h2.get_min();
     // concatenate
-    if(h2_n != nullptr)
+    if(h_min == nullptr)
+      h.set_min(h2_n);
+    else if(h2_n != nullptr)
       do
 	{
-	  fib_heap_list_insert(h2_n, h_min);
+	  auto temp = h2_n;
 	  h2_n = h2_n->get_right();
+	  fib_heap_list_insert(temp, h_min);
 	}
-      while(h2_n != h2->get_min());
-    if(h_min == nullptr ||
-       (h2->get_min() != nullptr &&
-	h2->get_min()->get_key() < h_min->get_key()))
-      h.set_min(h2->get_min());
-    h.set_n(h1->get_n() + h2->get_n());
+      while(h2_n != h2.get_min());
+    if(h2.get_min() != nullptr && h1.get_min() != nullptr &&
+       h2.get_min()->get_key() < h1.get_min()->get_key())
+      h.set_min(h2.get_min());
+    h.set_n(h1.get_n() + h2.get_n());
     return h;
   }
 
@@ -235,11 +237,12 @@ namespace CLRS
     if(z != nullptr)
       {
 	auto n = z->get_child();
-	for(std::size_t d = 1; d <= z->get_degeree(); ++d)
+	for(std::size_t d = 1; d <= z->get_degree(); ++d)
 	  {
-	    fib_heap_list_insert(z, n);
+	    auto temp = n->get_right();
+	    fib_heap_list_insert(n, z);
 	    n->set_p(nullptr);
-	    n = n->get_right();
+	    n = temp;
 	  }
 	fib_heap_list_remove(z);
 	if(z->get_right() == z)
@@ -263,20 +266,22 @@ namespace CLRS
     do
       {
 	auto x = w;
+	w = w->get_right();
 	std::size_t d = x->get_degree();
 	while(a[d] != nullptr)
 	  {
 	    auto y = a[d];
 	    if(x->get_key() > y->get_key())
 	      {
+		auto temp = x;
 		x = y;
-		y = w;
+		y = temp;
 	      }
 	    fib_heap_link(h, y, x);
 	    a[d] = nullptr;
 	    ++d;
 	  }
-	w = w->get_right();
+	a[d] = x;
       }
     while(w != h.get_min());
     // now the root list must be reconstructed
@@ -336,7 +341,7 @@ namespace CLRS
     fib_heap_list_remove_child(x, y);
     fib_heap_list_insert(x, h.get_min());
     x->set_p(nullptr);
-    x->clear_mar();
+    x->clear_mark();
   }
   
   template <typename T>
