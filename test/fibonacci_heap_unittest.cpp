@@ -210,6 +210,10 @@ TEST(FibHeap, DecreaseKey)
   EXPECT_EQ(true, z2->get_mark());
   EXPECT_EQ(1, z2->get_degree());
   EXPECT_EQ(15, h1.get_min()->get_left()->get_key());
+  // using an illegal value which is greater than current
+  unsigned f = 69;
+  EXPECT_THROW(fib_heap_decrease_key(h1, z2_c1_c, f), std::logic_error);
+  // using a legal value
   unsigned j = 5;
   fib_heap_decrease_key(h1, z2_c1_c, j);
   EXPECT_EQ(5, h1.get_min()->get_key());
@@ -263,4 +267,6 @@ TEST(FibHeap, Delete)
   // fib_heap_delete totally based on function extract_min and decrease_key
   // does not need detailed tests
   EXPECT_EQ(14, h1.get_n()); 
+  EXPECT_NE(x2_c2, x2_c2->get_right()->get_left());
+  EXPECT_NE(x2_c2, x2_c2->get_left()->get_right());
 }
