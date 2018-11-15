@@ -2,7 +2,6 @@
 #define PROTO_VEB_TREE_H
 
 
-#include <iostream>
 #include <math.h>
 #include <vector>
 #include <memory>
@@ -88,7 +87,7 @@ namespace CLRS
       }
     else
       {
-	auto vs = *v.get_summary();
+	auto &vs = *v.get_summary();
 	unsigned min_cluster = proto_veb_minimum(vs);
 	if(min_cluster == vs.get_u())
 	  /* 
@@ -119,7 +118,7 @@ namespace CLRS
       }
     else
       {
-	auto vs = *v.get_summary();
+	auto &vs = *v.get_summary();
 	unsigned max_cluster = proto_veb_maximum(vs);
 	if(max_cluster == vs.get_u())
 	  /* 
@@ -149,14 +148,14 @@ namespace CLRS
       }
     else
       {
-	auto vc = *v.get_cluster()[veb_high(x, u)];
+	auto &vc = *v.get_cluster()[veb_high(x, u)];
 	unsigned offset =
 	  proto_veb_successor(vc, veb_low(x, u));
 	if(offset != vc.get_u())
 	  return veb_index(veb_high(x, u), offset, u);
 	else
 	  {
-	    auto vs = *v.get_summary();
+	    auto &vs = *v.get_summary();
 	    unsigned succ_cluster =
 	      proto_veb_successor(vs, veb_high(x, u));
 	    if(succ_cluster == vs.get_u())
@@ -184,14 +183,14 @@ namespace CLRS
       }
     else
       {
-	auto vc = *v.get_cluster()[veb_high(x, u)];
+	auto &vc = *v.get_cluster()[veb_high(x, u)];
 	unsigned offset =
 	  proto_veb_predecessor(vc, veb_low(x, u));
 	if(offset != vc.get_u())
 	  return veb_index(veb_high(x, u), offset, u);
 	else
 	  {
-	    auto vs = *v.get_summary();
+	    auto &vs = *v.get_summary();
 	    unsigned pred_cluster =
 	      proto_veb_predecessor(vs, veb_high(x, u));
 	    if(pred_cluster == vs.get_u())
@@ -220,14 +219,11 @@ namespace CLRS
       }
     else
       {
-	auto vc = *v.get_cluster()[veb_high(x, u)];
+	auto &vc = *v.get_cluster()[veb_high(x, u)];
 	unsigned original_n = vc.get_n();
-	std::cout << "original " << original_n << std::endl;
 	proto_veb_insert(vc, veb_low(x, u));
 	unsigned new_n = vc.get_n();
-	std::cout << "new " << new_n << std::endl;
 	v.set_n(v.get_n() + (new_n - original_n));
-	std::cout << v.get_n() << std::endl;
 	if(original_n == 0 && new_n > 0)
 	  proto_veb_insert(*v.get_summary(), veb_high(x, u));
       }
@@ -247,7 +243,7 @@ namespace CLRS
       }
     else
       {
-	auto vc = *v.get_cluster()[veb_high(x, u)];
+	auto &vc = *v.get_cluster()[veb_high(x, u)];
 	unsigned original_n = vc.get_n();
 	proto_veb_delete(vc, veb_low(x, u));
 	unsigned new_n = vc.get_n();
