@@ -20,8 +20,9 @@ namespace CLRS
 				  const std::shared_ptr
 				  <LinkedListDisjointSetNode<T>> &);
   template <typename T>
-  T linked_list_disjoint_find_set(const std::shared_ptr
-				  <LinkedListDisjointSetNode<T>> &);
+  std::shared_ptr<LinkedListDisjointSetNode<T>>
+  linked_list_disjoint_find_set(const std::shared_ptr
+				<LinkedListDisjointSetNode<T>> &);
 
 
   template <typename T>
@@ -121,12 +122,11 @@ namespace CLRS
   }
   
   template <typename T>
-  T linked_list_disjoint_find_set(const std::shared_ptr
-				  <LinkedListDisjointSetNode<T>> &x)
+  std::shared_ptr<LinkedListDisjointSetNode<T>>
+  linked_list_disjoint_find_set
+  (const std::shared_ptr<LinkedListDisjointSetNode<T>> &x)
   {
-    auto set_p = x->get_set_p();
-    T key = set_p->get_head()->get_key();
-    return key;
+    return x->get_set_p()->get_head();
   }
 }
 
