@@ -17,9 +17,10 @@ namespace CLRS
     // square matrix
     std::vector<std::vector<bool>> a;
   public:
-    MatrixGraph(const std::vector<VertexSHR> &vs,
+    MatrixGraph(const std::set<VertexSHR,
+		decltype(CLRS::compare_vertex_graph)*> &vs,
 		const std::set<EdgeSHR,
-		decltype(compare_edge_graph)*> &es);
+		decltype(CLRS::compare_edge_graph)*> &es);
     bool edge_or_not(const EdgeSHR &e) const override
     {
       std::size_t i1 = e->get_first_vertex()->get_index();
@@ -29,9 +30,10 @@ namespace CLRS
   };
 
   MatrixGraph::MatrixGraph
-  (const std::vector<VertexSHR> &vs,
+  (const std::set<VertexSHR,
+   decltype(CLRS::compare_vertex_graph)*> &vs,
    const std::set<EdgeSHR,
-   decltype(compare_edge_graph)*> &es):
+   decltype(CLRS::compare_edge_graph)*> &es):
     BaseGraph(vs, es),
     a(vs.size(), std::vector<bool>(vs.size()))
   {

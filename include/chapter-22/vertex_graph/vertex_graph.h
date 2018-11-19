@@ -16,8 +16,20 @@ namespace CLRS
     std::size_t index = 0;
   public:
     VertexGraph(std::size_t i): index(i) {}
-    std::size_t get_index() const {return index;}
+    virtual std::size_t get_index() const {return index;}
   };
+
+  // compare function below for set compatibility
+  bool compare_vertex_graph(const VertexSHR &vp1,
+			    const VertexSHR &vp2)
+  {
+    std::size_t i1 =
+      vp1->get_index();
+    std::size_t i2 =
+      vp2->get_index();
+    return i1 < i2;
+  }
+
 }
 
 

@@ -21,9 +21,9 @@ namespace CLRS
     EdgeGraph(const VertexSHR &v1,
 	      const VertexSHR &v2):
       edge(std::make_pair(v1, v2)) {}
-    const VertexSHR &get_first_vertex() const
+    virtual const VertexSHR &get_first_vertex() const
     {return edge.first;}
-    const VertexSHR &get_second_vertex() const
+    virtual const VertexSHR &get_second_vertex() const
     {return edge.second;}
   };
 
