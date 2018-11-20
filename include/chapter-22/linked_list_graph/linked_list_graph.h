@@ -2,108 +2,61 @@
 #define LINKED_LIST_GRAPH_H
 
 
-#include <utility>
+#include <list>
 #include <vector>
-#include <memory>
+#include <utility>
 #include "chapter-22/base_graph/base_graph.h"
 #include "chapter-22/vertex_graph/vertex_graph.h"
 #include "chapter-22/edge_graph/edge_graph.h"
 
 namespace CLRS
 {
-  class LinkedListNodeGraph
+  template <typename T1, typename T2>
+  class LinkedListGraph: public BaseGraph<T1, T2>
   {
   protected:
-    std::size_t index;
-    std::shared_ptr<LinkedListNodeGraph> next;
+    std::vector<std::list<T1>> adj;
   public:
-    LinkedListNodeGraph(const EdgeSHR &e):
-      index(e->get_second_vertex()->get_index()) {}
-    std::size_t get_index() const {return index;}
-    std::shared_ptr<LinkedListNodeGraph>
-    get_next() const {return next;}
-    void set_next(const
-		  std::shared_ptr<LinkedListNodeGraph>
-		  &np) {next = np;}
-  };
-  
-  template <typename T>
-  class LinkedListGraph: public BaseGraph
-  {
-  protected:
-    std::vector
-    <std::shared_ptr<T>> adj;
-  public:
-    LinkedListGraph(const std::set<VertexSHR,
-		    decltype(CLRS::compare_vertex_graph)*> &vs,
-		    const std::set<EdgeSHR,
-		    decltype(CLRS::compare_edge_graph)*> &es);
-    bool edge_or_not(const EdgeSHR &e) const override;
-    T get_node(const EdgeSHR &e) const;
+    LinkedListGraph(const std::vector<T1> &vs,
+		    const std::vector<T2> &es);
+    bool edge_or_not(const T2 &e) const override;
+    typename std::list<T1>::const_iterator get_ll_cbeg_it
+    (std::size_t i) const {return adj[i].cbegin();}
   };
 
-  template <typename T>
-  bool LinkedListGraph<T>::edge_or_not(const EdgeSHR &e) const
+  template <typename T1, typename T2>
+  bool LinkedListGraph<T1, T2>::
+  edge_or_not(const T2 &e) const
   {
     std::size_t i =
-      e->get_first_vertex()->get_index();
+      e.get_first_vertex().get_index();
     std::size_t j =
-      e->get_second_vertex()->get_index();
-    for(auto n = adj[i];
-	n != nullptr;
-	n = n->get_next())
+      e.get_second_vertex().get_index();
+    for(auto it = adj[i].cbegin();
+	it != adj[i].cend();
+	++it)
       {
-	if(n->get_index() == j)
+	if((*it).get_index() == j)
 	  return true;
       }
     return false;
   }
 
-  template <typename T>
-  T LinkedListGraph<T>::get_node(const EdgeSHR &e) const
+  template <typename T1, typename T2>
+  LinkedListGraph<T1, T2>::LinkedListGraph
+  (const std::vector<T1> &vs,
+   const std::vector<T2> &es):
+    BaseGraph<T1, T2>(vs, es), adj(vs.size())
   {
-    std::size_t i =
-      e->get_first_vertex()->get_index();
-    std::size_t j =
-      e->get_second_vertex()->get_index();
-    for(auto n = adj[i];
-	n != nullptr;
-	n = n->get_next())
-      if(n->get_index() == j)
-	return *n;
-  }
-
-  template <typename T>
-  LinkedListGraph<T>::LinkedListGraph
-  (const std::set<VertexSHR,
-   decltype(CLRS::compare_vertex_graph)*> &vs,
-   const std::set<EdgeSHR,
-   decltype(CLRS::compare_edge_graph)*> &es):
-    BaseGraph(vs, es), adj(vs.size())
-  {
-    std::set<EdgeSHR>::const_iterator it = es.cbegin();
+    auto it = es.cbegin();
     while(it != es.cend())
       {
 	std::size_t i1 =
-	  (*it)->get_first_vertex()->get_index();
+	  (*it).get_first_vertex().get_index();
 	std::size_t i2 =
-	  (*it)->get_second_vertex()->get_index();
-	if(adj[i1] == nullptr)
-	  adj[i1] =
-	    std::make_shared<T>(*it);
-	else
-	  {
-	    auto p = adj[i1];
-	    decltype(p) temp;
-	    while(p != nullptr)
-	      {
-		temp = p;
-		p = p->get_next();
-	      }
-	    temp->set_next
-	      (std::make_shared
-	       <T>(*it));
-	  }
+	  (*it).get_second_vertex().get_index();
+	adj[i1].push_back
+	  ((*it).get_second_vertex());
 	++it;
       }
   }

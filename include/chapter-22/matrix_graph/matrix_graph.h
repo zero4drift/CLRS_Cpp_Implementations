@@ -4,46 +4,43 @@
 
 #include <utility>
 #include <vector>
-#include <memory>
 #include "chapter-22/base_graph/base_graph.h"
 #include "chapter-22/vertex_graph/vertex_graph.h"
 #include "chapter-22/edge_graph/edge_graph.h"
 
 namespace CLRS
 { 
-  class MatrixGraph: public BaseGraph
+  template <typename T1, typename T2>
+  class MatrixGraph: public BaseGraph<T1, T2>
   {
   protected:
     // square matrix
     std::vector<std::vector<bool>> a;
   public:
-    MatrixGraph(const std::set<VertexSHR,
-		decltype(CLRS::compare_vertex_graph)*> &vs,
-		const std::set<EdgeSHR,
-		decltype(CLRS::compare_edge_graph)*> &es);
-    bool edge_or_not(const EdgeSHR &e) const override
+    MatrixGraph(const std::vector<T1> &vs,
+		const std::vector<T2> &es);
+    bool edge_or_not(const T2 &e) const override
     {
-      std::size_t i1 = e->get_first_vertex()->get_index();
-      std::size_t i2 = e->get_second_vertex()->get_index();
+      std::size_t i1 = e.get_first_vertex().get_index();
+      std::size_t i2 = e.get_second_vertex().get_index();
       return a[i1][i2];
     }
   };
 
-  MatrixGraph::MatrixGraph
-  (const std::set<VertexSHR,
-   decltype(CLRS::compare_vertex_graph)*> &vs,
-   const std::set<EdgeSHR,
-   decltype(CLRS::compare_edge_graph)*> &es):
-    BaseGraph(vs, es),
+  template <typename T1, typename T2>
+  MatrixGraph<T1, T2>::MatrixGraph
+  (const std::vector<T1> &vs,
+   const std::vector<T2> &es):
+    BaseGraph<T1, T2>(vs, es),
     a(vs.size(), std::vector<bool>(vs.size()))
   {
-    std::set<EdgeSHR>::const_iterator it = es.cbegin();
+    auto it = es.cbegin();
     while(it != es.cend())
       {
 	std::size_t i1 =
-	  (*it)->get_first_vertex()->get_index();
+	  (*it).get_first_vertex().get_index();
 	std::size_t i2 =
-	  (*it)->get_second_vertex()->get_index();
+	  (*it).get_second_vertex().get_index();
 	a[i1][i2] = true;
 	++it;
       }
