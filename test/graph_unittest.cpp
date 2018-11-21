@@ -7,6 +7,7 @@
 #include "chapter-22/linked_list_graph/linked_list_graph.h"
 #include "chapter-22/matrix_graph/matrix_graph.h"
 #include "chapter-22/bfs_graph/bfs_graph.h"
+#include "chapter-22/dfs_graph/dfs_graph.h"
 
 using namespace CLRS;
 
@@ -240,4 +241,39 @@ TEST(Graph, BFS)
   EXPECT_EQ(2, llg.vertex(5).get_d());
   EXPECT_EQ(3, llg.vertex(7).get_d());
   // BFS_print_path(llg, 2, 7);
+}
+
+TEST(Graph, DFS)
+{
+  auto v0 = DFSVertexGraph(0);
+  auto v1 = DFSVertexGraph(1);
+  auto v2 = DFSVertexGraph(2);
+  auto v3 = DFSVertexGraph(3);
+  auto v4 = DFSVertexGraph(4);
+  auto v5 = DFSVertexGraph(5);
+  auto e0 = EdgeGraph<DFSVertexGraph>(v0, v1);
+  auto e1 = EdgeGraph<DFSVertexGraph>(v1, v2);
+  auto e2 = EdgeGraph<DFSVertexGraph>(v2, v3);
+  auto e3 = EdgeGraph<DFSVertexGraph>(v3, v1);
+  auto e4 = EdgeGraph<DFSVertexGraph>(v4, v2);
+  auto e5 = EdgeGraph<DFSVertexGraph>(v4, v5);
+  auto e6 = EdgeGraph<DFSVertexGraph>(v0, v3);
+  std::vector<DFSVertexGraph> vs =
+    {v0, v1, v2, v3, v4, v5};
+  std::vector<EdgeGraph<DFSVertexGraph>> es =
+    {e0, e1, e2, e3, e4, e5, e6};
+  LinkedListGraph<DFSVertexGraph,
+		  EdgeGraph<DFSVertexGraph>> llg(vs, es);
+  dfs_graph(llg);
+  // color test, all vertex should be marked with black
+  for(std::size_t i = 0; i <= 5; ++i)
+    for(std::size_t u : llg.get_list(i))
+      EXPECT_EQ(DFSVertexColor::black, llg.vertex(u).get_color());
+  // timestamp test
+  EXPECT_EQ(1, llg.vertex(0).get_d());
+  EXPECT_EQ(8, llg.vertex(0).get_f());
+  EXPECT_EQ(3, llg.vertex(2).get_d());
+  EXPECT_EQ(6, llg.vertex(2).get_f()); 
+  EXPECT_EQ(10, llg.vertex(5).get_d());
+  EXPECT_EQ(11, llg.vertex(5).get_f());
 }
