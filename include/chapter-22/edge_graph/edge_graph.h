@@ -3,7 +3,6 @@
 
 
 #include <utility>
-#include "chapter-22/vertex_graph/vertex_graph.h"
 
 namespace CLRS
 {
@@ -11,14 +10,15 @@ namespace CLRS
   template <typename T>
   struct EdgeGraph
   {
-    std::pair<T, T> edge;
+    std::pair<std::size_t, std::size_t> edge;
   public:
     EdgeGraph(const T &v1,
 	      const T &v2):
-      edge(std::make_pair(v1, v2)) {}
-    T get_first_vertex() const
+      edge(std::make_pair(v1.get_index(),
+			  v2.get_index())) {}
+    std::size_t get_first_vertex() const
     {return edge.first;}
-    T get_second_vertex() const
+    std::size_t get_second_vertex() const
     {return edge.second;}
   };
 }

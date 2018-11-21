@@ -5,8 +5,6 @@
 #include <utility>
 #include <vector>
 #include "chapter-22/base_graph/base_graph.h"
-#include "chapter-22/vertex_graph/vertex_graph.h"
-#include "chapter-22/edge_graph/edge_graph.h"
 
 namespace CLRS
 { 
@@ -21,8 +19,8 @@ namespace CLRS
 		const std::vector<T2> &es);
     bool edge_or_not(const T2 &e) const override
     {
-      std::size_t i1 = e.get_first_vertex().get_index();
-      std::size_t i2 = e.get_second_vertex().get_index();
+      std::size_t i1 = e.get_first_vertex();
+      std::size_t i2 = e.get_second_vertex();
       return a[i1][i2];
     }
   };
@@ -38,9 +36,9 @@ namespace CLRS
     while(it != es.cend())
       {
 	std::size_t i1 =
-	  (*it).get_first_vertex().get_index();
+	  (*it).get_first_vertex();
 	std::size_t i2 =
-	  (*it).get_second_vertex().get_index();
+	  (*it).get_second_vertex();
 	a[i1][i2] = true;
 	++it;
       }

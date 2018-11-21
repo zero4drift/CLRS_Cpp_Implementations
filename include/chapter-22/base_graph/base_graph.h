@@ -3,8 +3,6 @@
 
 
 #include <vector>
-#include "chapter-22/vertex_graph/vertex_graph.h"
-#include "chapter-22/edge_graph/edge_graph.h"
 
 namespace CLRS
 {
@@ -32,50 +30,22 @@ namespace CLRS
     // indexes of the passed in object are inside the range
     virtual bool edge_or_not (const T2 &) const = 0;
 
-    T1 get_vertex(std::size_t) const;
-
-    T2 get_edge(std::size_t, std::size_t) const;
-
-    std::vector<T1> get_vertexes() const
-    {return vertexes;}
-
-    std::vector<T2> get_edges() const
-    {return edges;}
+    // exception if nothing match
+    T1 &vertex(std::size_t i)
+    {return vertexes[i];}
+    T2 &edge(std::size_t i, std::size_t j);
   };
 
-  // user should make sure i < vertexes.size()
   template <typename T1, typename T2>
-  T1
-  BaseGraph<T1, T2>::get_vertex(std::size_t i) const
+  T2 & BaseGraph<T1, T2>::edge(std::size_t i, std::size_t j)
   {
-    auto cit = vertexes.cbegin();
-    while(cit != vertexes.cend())
+    for(auto &e : edges)
       {
-	if((*cit).get_index() == i)
-	  return *cit;
-	++cit;
+	if(e.get_first_vertex() == i &&
+	   e.get_second_vertex() == j)
+	  return e;
       }
-  }
-
-  /* 
-   * user should make sure i + j < edges.count()
-   * and the object pointed by return shr still 
-   * takes i as first index
-   */
-  template <typename T1, typename T2>
-  T2
-  BaseGraph<T1, T2>::get_edge(std::size_t i,
-			      std::size_t j) const
-  {
-    auto cit = edges.cbegin();
-    while(cit != edges.cend())
-      {
-	if((*cit).get_first_vertex().get_index() == i
-	   && (*cit).get_second_vertex().get_index() == j)
-	  return *cit;
-	else
-	  ++cit;
-      }
+    // exception if nothing match
   }
 }
 

@@ -6,8 +6,6 @@
 #include <vector>
 #include <utility>
 #include "chapter-22/base_graph/base_graph.h"
-#include "chapter-22/vertex_graph/vertex_graph.h"
-#include "chapter-22/edge_graph/edge_graph.h"
 
 namespace CLRS
 {
@@ -15,13 +13,13 @@ namespace CLRS
   class LinkedListGraph: public BaseGraph<T1, T2>
   {
   protected:
-    std::vector<std::list<T1>> adj;
+    std::vector<std::list<std::size_t>> adj;
   public:
     LinkedListGraph(const std::vector<T1> &vs,
 		    const std::vector<T2> &es);
     bool edge_or_not(const T2 &e) const override;
-    typename std::list<T1>::const_iterator get_ll_cbeg_it
-    (std::size_t i) const {return adj[i].cbegin();}
+    std::list<size_t> get_list(std::size_t i) const
+    {return adj[i];}
   };
 
   template <typename T1, typename T2>
@@ -29,14 +27,14 @@ namespace CLRS
   edge_or_not(const T2 &e) const
   {
     std::size_t i =
-      e.get_first_vertex().get_index();
+      e.get_first_vertex();
     std::size_t j =
-      e.get_second_vertex().get_index();
-    for(auto it = adj[i].cbegin();
-	it != adj[i].cend();
-	++it)
+      e.get_second_vertex();
+    for(auto cit = adj[i].cbegin();
+	cit != adj[i].cend();
+	++cit)
       {
-	if((*it).get_index() == j)
+	if(*cit == j)
 	  return true;
       }
     return false;
@@ -52,11 +50,10 @@ namespace CLRS
     while(it != es.cend())
       {
 	std::size_t i1 =
-	  (*it).get_first_vertex().get_index();
+	  (*it).get_first_vertex();
 	std::size_t i2 =
-	  (*it).get_second_vertex().get_index();
-	adj[i1].push_back
-	  ((*it).get_second_vertex());
+	  (*it).get_second_vertex();
+	adj[i1].push_back(i2);
 	++it;
       }
   }
