@@ -4,6 +4,7 @@
 
 #include <queue>
 #include <utility>
+#include <iostream>
 #include "chapter-22/edge_graph/edge_graph.h"
 #include "chapter-22/vertex_graph/vertex_graph.h"
 #include "chapter-22/linked_list_graph/linked_list_graph.h"
@@ -24,7 +25,7 @@ namespace CLRS
     BFSVertexGraph(std::size_t i): VertexGraph(i) {}
     BFSVertexColor get_color() const {return color;}
     void set_color(BFSVertexColor c) {color = c;}
-    std::size_t get_p_() const {return p_index;}
+    std::size_t get_p() const {return p_index;}
     bool is_p_set() const {return p_set;}
     void set_p_b() {p_set = true;}
     void set_p(std::size_t i) {p_index = i;}
@@ -61,8 +62,22 @@ namespace CLRS
 		q.push(v);
 	      }
 	  }
-	// g
-	  .vertex(u).set_color(BFSVertexColor::black);
+	g.vertex(u).set_color(BFSVertexColor::black);
+      }
+  }
+
+  void BFS_print_path(LinkedListGraph<BFSVertexGraph,
+		      EdgeGraph<BFSVertexGraph>> &g,
+		      std::size_t s, std::size_t v)
+  {
+    if(s == v)
+      std::cout << s << std::endl;
+    else if(!g.vertex(v).is_p_set())
+      std::cout << "no path from " << s << " to " << v << std::endl;
+    else
+      {
+	BFS_print_path(g, s, g.vertex(v).get_p());
+	std::cout << v << std::endl;
       }
   }
 }

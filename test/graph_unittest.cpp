@@ -239,4 +239,5 @@ TEST(Graph, BFS)
   EXPECT_EQ(1, llg.vertex(3).get_d());
   EXPECT_EQ(2, llg.vertex(5).get_d());
   EXPECT_EQ(3, llg.vertex(7).get_d());
+  // BFS_print_path(llg, 2, 7);
 }
