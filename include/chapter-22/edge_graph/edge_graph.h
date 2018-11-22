@@ -20,6 +20,10 @@ namespace CLRS
     {return edge.first;}
     std::size_t get_second_vertex() const
     {return edge.second;}
+    void set_first_vertex(std::size_t i)
+    {edge.first = i;}
+    void set_second_vertex(std::size_t i)
+    {edge.second = i;}
   };
 }
 

@@ -1,3 +1,4 @@
+#include <list>
 #include <queue>
 #include <vector>
 #include <gtest/gtest.h>
@@ -276,4 +277,70 @@ TEST(Graph, DFS)
   EXPECT_EQ(6, llg.vertex(2).get_f()); 
   EXPECT_EQ(10, llg.vertex(5).get_d());
   EXPECT_EQ(11, llg.vertex(5).get_f());
+}
+
+TEST(Graph, TopoDFSSort)
+{
+  auto v0 = DFSVertexGraph(0);
+  auto v1 = DFSVertexGraph(1);
+  auto v2 = DFSVertexGraph(2);
+  auto v3 = DFSVertexGraph(3);
+  auto v4 = DFSVertexGraph(4);
+  auto v5 = DFSVertexGraph(5);
+  auto e0 = EdgeGraph<DFSVertexGraph>(v0, v1);
+  auto e1 = EdgeGraph<DFSVertexGraph>(v1, v2);
+  auto e2 = EdgeGraph<DFSVertexGraph>(v2, v3);
+  auto e3 = EdgeGraph<DFSVertexGraph>(v3, v1);
+  auto e4 = EdgeGraph<DFSVertexGraph>(v4, v2);
+  auto e5 = EdgeGraph<DFSVertexGraph>(v4, v5);
+  auto e6 = EdgeGraph<DFSVertexGraph>(v0, v3);
+  std::vector<DFSVertexGraph> vs =
+    {v0, v1, v2, v3, v4, v5};
+  std::vector<EdgeGraph<DFSVertexGraph>> es =
+    {e0, e1, e2, e3, e4, e5, e6};
+  LinkedListGraph<DFSVertexGraph,
+		  EdgeGraph<DFSVertexGraph>> llg(vs, es);
+  std::list<std::size_t> l = topological_sort_graph(llg);
+  EXPECT_EQ(4, l.front());
+  EXPECT_EQ(3, l.back()); 
+}
+
+TEST(Graph, SCC)
+{
+  auto v0 = DFSVertexGraph(0);
+  auto v1 = DFSVertexGraph(1);
+  auto v2 = DFSVertexGraph(2);
+  auto v3 = DFSVertexGraph(3);
+  auto v4 = DFSVertexGraph(4);
+  auto v5 = DFSVertexGraph(5);
+  auto v6 = DFSVertexGraph(6);
+  auto v7 = DFSVertexGraph(7);
+  auto e0 = EdgeGraph<DFSVertexGraph>(v0, v1);
+  auto e1 = EdgeGraph<DFSVertexGraph>(v1, v2);
+  auto e2 = EdgeGraph<DFSVertexGraph>(v2, v3);
+  auto e3 = EdgeGraph<DFSVertexGraph>(v3, v2);
+  auto e4 = EdgeGraph<DFSVertexGraph>(v4, v0);
+  auto e5 = EdgeGraph<DFSVertexGraph>(v1, v4);
+  auto e6 = EdgeGraph<DFSVertexGraph>(v1, v5);
+  auto e7 = EdgeGraph<DFSVertexGraph>(v4, v5);
+  auto e8 = EdgeGraph<DFSVertexGraph>(v5, v6);
+  auto e9 = EdgeGraph<DFSVertexGraph>(v6, v5);
+  auto e10 = EdgeGraph<DFSVertexGraph>(v6, v7);
+  auto e11 = EdgeGraph<DFSVertexGraph>(v2, v6);
+  auto e12 = EdgeGraph<DFSVertexGraph>(v3, v7);
+  std::vector<DFSVertexGraph> vs =
+    {v0, v1, v2, v3, v4, v5, v6, v7};
+  std::vector<EdgeGraph<DFSVertexGraph>> es =
+    {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12};
+  SCCLinkedListGraph<DFSVertexGraph,
+		     EdgeGraph<DFSVertexGraph>> llg(vs, es);
+  auto llgt = scc_graph(llg);
+  EXPECT_EQ(0, llgt.vertex(4).get_p());
+  EXPECT_EQ(4, llgt.vertex(1).get_p());
+  EXPECT_FALSE(llgt.vertex(0).is_p_set());
+  EXPECT_EQ(6, llgt.vertex(5).get_p());
+  EXPECT_FALSE(llgt.vertex(6).is_p_set());
+  EXPECT_EQ(2, llgt.vertex(3).get_p());
+  EXPECT_FALSE(llgt.vertex(2).is_p_set());
+  EXPECT_FALSE(llgt.vertex(7).is_p_set());
 }
