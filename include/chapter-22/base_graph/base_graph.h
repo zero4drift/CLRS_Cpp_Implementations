@@ -38,6 +38,7 @@ namespace CLRS
     // return amount of vertexes
     std::size_t get_vertexes_size() const
     {return vertexes.size();}
+    std::vector<T2> &get_edges() {return edges;}
   };
 
   template <typename T1, typename T2>
