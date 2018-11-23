@@ -271,7 +271,7 @@ namespace CLRS
 	while(a[d] != nullptr)
 	  {
 	    auto y = a[d];
-	    if(x->get_key() > y->get_key())
+	    if(y->get_key() < x->get_key())
 	      {
 		auto temp = x;
 		x = y;
@@ -320,7 +320,7 @@ namespace CLRS
 			     const std::shared_ptr<FibHeapTreeNode<T>> &x,
 			     T k)
   {
-    if(k > x->get_key())
+    if(x->get_key() < k)
       throw std::logic_error("new key is greater than current key");
     x->set_key(k);
     auto y = x->get_p();
