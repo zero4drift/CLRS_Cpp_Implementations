@@ -7,6 +7,33 @@
 using namespace CLRS;
 using FibNodeUnsigned = FibHeapTreeNode<unsigned>; 
 
+void scan_through_fib_tree
+  (const std::shared_ptr<FibHeapTreeNode<unsigned>> &n)
+  {
+    if(n != nullptr)
+      {
+	std::cout << n->get_key() << " ";
+	scan_through_fib_tree(n->get_child());
+      }
+  }
+
+  void scan_through_fib_heap
+  (const FibHeap<unsigned> &h)
+  {
+    std::cout << "heap begins" << std::endl;
+    auto root = h.get_min();
+    auto min = root;
+    do
+      {
+	std::cout << "tree begins" << std::endl;
+	scan_through_fib_tree(root);
+	root = root->get_right();
+	std::cout << "\ntree ends" << std::endl;
+      }
+    while(root != min);
+    std::cout << "heap ends" << std::endl;
+  }
+
 TEST(FibHeap, Create)
 {
   auto h = make_fib_heap<unsigned>();

@@ -9,25 +9,15 @@
 #include "chapter-21/tree_disjoint_set/tree_disjoint_set.h"
 #include "chapter-22/base_graph/base_graph.h"
 #include "chapter-22/vertex_graph/vertex_graph.h"
-#include "chapter-22/edge_graph/edge_graph.h"
+#include "chapter-23/minimum_spanning_tree/mst_utilities.h"
 
 namespace CLRS
 {
-  class WeightEdgeGraph: public EdgeGraph<VertexGraph>
-  {
-  private:
-    unsigned weight;
-  public:
-    WeightEdgeGraph(const VertexGraph &v1,
-		    const VertexGraph &v2,
-		    unsigned w):
-      EdgeGraph<VertexGraph>(v1, v2), weight(w) {}
-    unsigned get_weight() const {return weight;}
-  };
 
   std::vector<std::pair<std::size_t, std::size_t>>
   mst_kruskal
-  (BaseGraph<VertexGraph, WeightEdgeGraph> &g)
+  (BaseGraph<VertexGraph,
+   WeightEdgeGraph<VertexGraph>> &g)
   {
     std::vector
       <std::pair<std::size_t, std::size_t>> a;
@@ -44,8 +34,8 @@ namespace CLRS
       }
     std::sort(g.get_edges().begin(),
 	      g.get_edges().end(),
-	      [](const WeightEdgeGraph &e1,
-		 const WeightEdgeGraph &e2)
+	      [](const WeightEdgeGraph<VertexGraph> &e1,
+		 const WeightEdgeGraph<VertexGraph> &e2)
 	      {return e1.get_weight() < e2.get_weight();});
     for(const auto &e : g.get_edges())
       {
