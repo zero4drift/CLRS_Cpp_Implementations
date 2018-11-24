@@ -2,7 +2,6 @@
 #define FIBONACCI_H
 
 
-#include <iostream>
 #include <math.h>
 #include <memory>
 #include <utility>
@@ -48,43 +47,6 @@ namespace CLRS
   template <typename T>
   void fib_heap_delete(FibHeap<T> &,
 		       const std::shared_ptr<FibHeapTreeNode<T>> &);
-
-  template <typename T>
-  void scan_through_fib_tree
-  (const std::shared_ptr<FibHeapTreeNode<T>> &n)
-  {
-    if(n != nullptr)
-      {
-	std::cout << n->get_key().get_index() << " ";
-	auto c = n->get_child();
-	auto w = c;
-	if(w != nullptr)
-	  do
-	    {
-	      scan_through_fib_tree(w);
-	      w = w->get_right();
-	    }
-	  while(w != c);
-      }
-  }
-
-  template <typename T>
-  void scan_through_fib_heap
-  (const FibHeap<T> &h)
-  {
-    std::cout << "heap begins" << std::endl;
-    auto root = h.get_min();
-    auto min = root;
-    do
-      {
-	std::cout << "tree begins" << std::endl;
-	scan_through_fib_tree(root);
-	root = root->get_right();
-	std::cout << "\ntree ends" << std::endl;
-      }
-    while(root != min);
-    std::cout << "heap ends" << std::endl;
-  }
 
   /*
    * doubly linked circular list helper functions
@@ -291,7 +253,6 @@ namespace CLRS
 	    h.set_min(z->get_right());
 	    consolidate(h);
 	  }
-	scan_through_fib_heap(h);
 	h.decr_n();
       }
     return z;
@@ -303,7 +264,17 @@ namespace CLRS
     std::size_t max_degree = fib_maximum_degree(h.get_n());
     std::shared_ptr<FibHeapTreeNode<T>> a[max_degree + 1];
     auto w = h.get_min();
+    // compute the length of root list
+    // TODO: data root list length better stored in class FibHeap
+    std::size_t root_list_len = 0;
     do
+      {
+	++root_list_len;
+	w = w->get_right();
+      }
+    while(w != h.get_min());
+    // handle each node of root list
+    while(root_list_len != 0)
       {
 	auto x = w;
 	w = w->get_right();
@@ -322,8 +293,8 @@ namespace CLRS
 	    ++d;
 	  }
 	a[d] = x;
+	--root_list_len;
       }
-    while(w != h.get_min());
     // now the root list must be reconstructed
     h.set_min(nullptr);
     for(std::size_t i = 0; i <= max_degree; ++i)
