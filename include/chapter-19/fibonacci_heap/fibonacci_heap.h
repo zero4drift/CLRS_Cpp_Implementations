@@ -264,8 +264,13 @@ namespace CLRS
     std::size_t max_degree = fib_maximum_degree(h.get_n());
     std::shared_ptr<FibHeapTreeNode<T>> a[max_degree + 1];
     auto w = h.get_min();
-    // compute the length of root list
-    // TODO: data root list length better stored in class FibHeap
+    /* 
+     * the reason why the former commit of code below causes a bug:
+     * the min of fib heap may be removed from the root list
+     * and then the former while loop is infinite. 
+     * Fix: compute the length of root list and take it as the while contition
+     * TODO: data root list length better stored in class FibHeap
+     */
     std::size_t root_list_len = 0;
     do
       {
