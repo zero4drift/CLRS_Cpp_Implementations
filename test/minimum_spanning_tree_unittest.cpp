@@ -1,10 +1,8 @@
 #include <utility>
 #include <gtest/gtest.h>
-#include "chapter-21/tree_disjoint_set/tree_disjoint_set.h"
-#include "chapter-22/base_graph/base_graph.h"
 #include "chapter-22/vertex_graph/vertex_graph.h"
-#include "chapter-22/edge_graph/edge_graph.h"
 #include "chapter-22/linked_list_graph/linked_list_graph.h"
+#include "chapter-23/minimum_spanning_tree/mst_utilities.h"
 #include "chapter-23/minimum_spanning_tree/mst_kruskal/mst_kruskal.h"
 #include "chapter-23/minimum_spanning_tree/mst_prim/mst_prim.h"
 
