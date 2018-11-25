@@ -51,7 +51,7 @@ namespace CLRS
     g.vertex(u).set_d(*t);
     g.vertex(u).set_f_b();
     g.vertex(u).set_color(DFSVertexColor::gray);
-    for(std::size_t v : g.get_list(u))
+    for(std::size_t v : g.get_adj_vertexes(u))
       {
 	if(g.vertex(v).get_color() ==
 	   DFSVertexColor::white)
@@ -94,7 +94,7 @@ namespace CLRS
     g.vertex(u).set_d(*t);
     g.vertex(u).set_f_b();
     g.vertex(u).set_color(DFSVertexColor::gray);
-    for(std::size_t v : g.get_list(u))
+    for(std::size_t v : g.get_adj_vertexes(u))
       {
 	if(g.vertex(v).get_color() ==
 	   DFSVertexColor::white)
@@ -160,7 +160,7 @@ namespace CLRS
 	std::size_t i2 = e.get_second_vertex();
 	e.set_first_vertex(i2);
 	e.set_second_vertex(i1);
-	LinkedListGraph<T1, T2>::adj[i2].push_back(i1);
+	LinkedListGraph<T1, T2>::adj[i2].push_back(&e);
       }
   }
 

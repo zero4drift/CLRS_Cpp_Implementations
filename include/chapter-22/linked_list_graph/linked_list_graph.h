@@ -2,7 +2,6 @@
 #define LINKED_LIST_GRAPH_H
 
 
-#include <list>
 #include <vector>
 #include <utility>
 #include "chapter-22/base_graph/base_graph.h"
@@ -13,13 +12,16 @@ namespace CLRS
   class LinkedListGraph: public BaseGraph<T1, T2>
   {
   protected:
-    std::vector<std::list<std::size_t>> adj;
+    std::vector<std::vector<const T2*>> adj;
   public:
     LinkedListGraph(const std::vector<T1> &vs,
 		    const std::vector<T2> &es);
     bool edge_or_not(const T2 &e) const override;
-    std::list<size_t> get_list(std::size_t i) const
-    {return adj[i];}
+    std::vector<size_t> get_adj_vertexes(std::size_t i) const
+    {std::vector<size_t> r;
+      for(const auto &ep : adj[i])
+	r.push_back(ep->get_second_vertex());
+      return r;}
   };
 
   template <typename T1, typename T2>
@@ -30,11 +32,9 @@ namespace CLRS
       e.get_first_vertex();
     std::size_t j =
       e.get_second_vertex();
-    for(auto cit = adj[i].cbegin();
-	cit != adj[i].cend();
-	++cit)
+    for(const auto &ep : adj[i])
       {
-	if(*cit == j)
+	if(ep->get_second_vertex() == j)
 	  return true;
       }
     return false;
@@ -51,9 +51,7 @@ namespace CLRS
       {
 	std::size_t i1 =
 	  (*it).get_first_vertex();
-	std::size_t i2 =
-	  (*it).get_second_vertex();
-	adj[i1].push_back(i2);
+	adj[i1].push_back(&(*it));
 	++it;
       }
   }

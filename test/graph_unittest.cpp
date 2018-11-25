@@ -234,7 +234,7 @@ TEST(Graph, BFS)
   bfs_graph(llg, 2);
   // color test, all vertex should be marked with black
   for(std::size_t i = 0; i <= 7; ++i)
-    for(std::size_t u : llg.get_list(i))
+    for(std::size_t u : llg.get_adj_vertexes(i))
       EXPECT_EQ(BFSVertexColor::black, llg.vertex(u).get_color());
   // diatance test
   EXPECT_EQ(2, llg.vertex(0).get_d());
@@ -268,7 +268,7 @@ TEST(Graph, DFS)
   dfs_graph(llg);
   // color test, all vertex should be marked with black
   for(std::size_t i = 0; i <= 5; ++i)
-    for(std::size_t u : llg.get_list(i))
+    for(std::size_t u : llg.get_adj_vertexes(i))
       EXPECT_EQ(DFSVertexColor::black, llg.vertex(u).get_color());
   // timestamp test
   EXPECT_EQ(1, llg.vertex(0).get_d());
