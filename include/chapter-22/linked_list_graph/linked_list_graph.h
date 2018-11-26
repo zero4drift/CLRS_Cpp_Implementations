@@ -17,10 +17,10 @@ namespace CLRS
     LinkedListGraph(const std::vector<T1> &vs,
 		    const std::vector<T2> &es);
     bool edge_or_not(const T2 &e) const override;
-    std::vector<size_t> get_adj_vertexes(std::size_t i) const
-    {std::vector<size_t> r;
+    std::vector<const T2*> get_adj_vertexes(std::size_t i) const
+    {std::vector<const T2*> r;
       for(const auto &ep : adj[i])
-	r.push_back(ep->get_second_vertex());
+	r.push_back(ep);
       return r;}
   };
 

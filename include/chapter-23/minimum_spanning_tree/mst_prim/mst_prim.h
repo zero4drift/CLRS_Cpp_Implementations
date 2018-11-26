@@ -59,8 +59,9 @@ namespace CLRS
 	if(uv.get_weight())
 	  a.push_back(std::make_pair(uv.get_p(), u));
 	// scan through the adjacent nodes
-	for(std::size_t vp : g.get_adj_vertexes(u))
+	for(const auto &ep: g.get_adj_vertexes(u))
 	  {
+	    std::size_t vp = ep->get_second_vertex();
 	    auto vv = vshr[vp]->get_key();
 	    std::size_t v = vv.get_index();
 	    // condition1: handle the node still in fib heap

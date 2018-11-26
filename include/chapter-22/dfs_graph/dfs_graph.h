@@ -16,7 +16,7 @@ namespace CLRS
   {
   private:
     DFSVertexColor color = DFSVertexColor::white;
-    std::size_t p_index = 0;
+    std::size_t p = 0;
     bool p_set = false;
     // visit time
     std::size_t d = 0;
@@ -28,48 +28,49 @@ namespace CLRS
     DFSVertexGraph(std::size_t i): VertexGraph(i) {}
     DFSVertexColor get_color() const {return color;}
     void set_color(DFSVertexColor c) {color = c;}
-    std::size_t get_p() const {return p_index;}
+    std::size_t get_p() const {return p;}
     bool is_p_set() const {return p_set;}
-    void set_p_b() {p_set = true;}
-    void set_p(std::size_t i) {p_index = i;}
+    void set_p_flag() {p_set = true;}
+    void set_p(std::size_t i) {p = i;}
     std::size_t get_d() const {return d;}
     bool is_d_set() const {return d_set;}
-    void set_d_b() {d_set = true;}
+    void set_d_flag() {d_set = true;}
     void set_d(std::size_t D) {d = D;}
     std::size_t get_f() const {return f;}
     bool is_f_set() const {return f_set;}
-    void set_f_b() {f_set = true;}
+    void set_f_flag() {f_set = true;}
     void set_f(std::size_t F) {f = F;}
   };
 
+  template <typename T1, typename T2>
   void dfs_visit_graph
-  (LinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g,
+  (LinkedListGraph<T1, T2> &g,
    std::size_t u, std::size_t *t)
   {
     *t = *t + 1;
     g.vertex(u).set_d(*t);
-    g.vertex(u).set_f_b();
+    g.vertex(u).set_d_flag();
     g.vertex(u).set_color(DFSVertexColor::gray);
-    for(std::size_t v : g.get_adj_vertexes(u))
+    for(const auto &ep : g.get_adj_vertexes(u))
       {
+	std::size_t v = ep->get_second_vertex();
 	if(g.vertex(v).get_color() ==
 	   DFSVertexColor::white)
 	  {
 	    g.vertex(v).set_p(u);
-	    g.vertex(v).set_p_b();
+	    g.vertex(v).set_p_flag();
 	    dfs_visit_graph(g, v, t);
 	  }
       }
     g.vertex(u).set_color(DFSVertexColor::black);
     *t = *t + 1;
     g.vertex(u).set_f(*t);
-    g.vertex(u).set_f_b();
+    g.vertex(u).set_f_flag();
   }
 
+  template <typename T1, typename T2>
   void dfs_graph
-  (LinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g)
+  (LinkedListGraph<T1, T2> &g)
   {
     std::size_t time = 0;
     std::size_t amount = g.get_vertexes_size();
@@ -84,23 +85,24 @@ namespace CLRS
   }
 
   // TODO: any better way to implement dfs topo sort?
+  template <typename T1, typename T2>
   void topo_dfs_visit_graph
-  (LinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g,
+  (LinkedListGraph<T1, T2> &g,
    std::size_t u, std::size_t *t,
    std::list<std::size_t> &l)
   {
     *t = *t + 1;
     g.vertex(u).set_d(*t);
-    g.vertex(u).set_f_b();
+    g.vertex(u).set_d_flag();
     g.vertex(u).set_color(DFSVertexColor::gray);
-    for(std::size_t v : g.get_adj_vertexes(u))
+    for(const auto &ep: g.get_adj_vertexes(u))
       {
+	std::size_t v = ep->get_second_vertex();
 	if(g.vertex(v).get_color() ==
 	   DFSVertexColor::white)
 	  {
 	    g.vertex(v).set_p(u);
-	    g.vertex(v).set_p_b();
+	    g.vertex(v).set_p_flag();
 	    topo_dfs_visit_graph(g, v, t, l);
 	  }
       }
@@ -108,12 +110,12 @@ namespace CLRS
     l.push_front(u);
     *t = *t + 1;
     g.vertex(u).set_f(*t);
-    g.vertex(u).set_f_b();
+    g.vertex(u).set_f_flag();
   }
 
+  template <typename T1, typename T2>
   void topo_dfs_graph
-  (LinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g,
+  (LinkedListGraph<T1, T2> &g,
    std::list<std::size_t> &l)
   {
     std::size_t time = 0;
@@ -129,9 +131,9 @@ namespace CLRS
       }
   }
   
+  template <typename T1, typename T2>
   std::list<std::size_t> topological_sort_graph
-  (LinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g)
+  (LinkedListGraph<T1, T2> &g)
   {
     std::list<std::size_t> l;
     topo_dfs_graph(g, l);
@@ -164,9 +166,9 @@ namespace CLRS
       }
   }
 
+  template <typename T1, typename T2>
   void scc_dfs_graph
-  (SCCLinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g,
+  (SCCLinkedListGraph<T1, T2> &g,
    const std::list<std::size_t> &decr_f)
   {
     std::size_t time = 0;
@@ -179,11 +181,10 @@ namespace CLRS
   }
 
   // return a graph proves scc
-  SCCLinkedListGraph<DFSVertexGraph,
-		     EdgeGraph<DFSVertexGraph>>
+  template <typename T1, typename T2>
+  SCCLinkedListGraph<T1, T2>
   scc_graph
-  (SCCLinkedListGraph<DFSVertexGraph,
-   EdgeGraph<DFSVertexGraph>> &g)
+  (SCCLinkedListGraph<T1, T2> &g)
   {
     auto gt = g;
     gt.tranpose();

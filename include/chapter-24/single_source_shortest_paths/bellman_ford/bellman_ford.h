@@ -27,9 +27,9 @@ namespace CLRS
 	std::size_t vi = e.get_second_vertex();
 	auto u = g.vertex(ui);
 	auto v = g.vertex(vi);
-	if(v.is_d_set() && u.is_d_set())
+	if(v.is_dw_set() && u.is_dw_set())
 	  {
-	    if(v.get_d() > (u.get_d() + e.get_weight()))
+	    if(v.get_dw() > (u.get_dw() + e.get_weight()))
 	      return false;
 	  }
       }

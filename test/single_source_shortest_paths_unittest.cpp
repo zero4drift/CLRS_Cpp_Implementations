@@ -3,6 +3,7 @@
 #include "chapter-22/linked_list_graph/linked_list_graph.h"
 #include "chapter-24/single_source_shortest_paths/sssp_utilities.h"
 #include "chapter-24/single_source_shortest_paths/bellman_ford/bellman_ford.h"
+#include "chapter-24/single_source_shortest_paths/dag_shortest_paths/dag_shortest_paths.h"
 
 using namespace CLRS;
 
@@ -30,13 +31,13 @@ TEST(SSSP, BellmanFordWithoutNegativeCircle)
 		  SSSPWeightEdgeGraph<SSSPVertexGraph>> llg(vs, es);
   EXPECT_TRUE(bellman_ford(llg, 0));
   EXPECT_EQ(0, llg.vertex(3).get_p());
-  EXPECT_EQ(7, llg.vertex(3).get_d());
+  EXPECT_EQ(7, llg.vertex(3).get_dw());
   EXPECT_EQ(3, llg.vertex(2).get_p());
-  EXPECT_EQ(4, llg.vertex(2).get_d());
+  EXPECT_EQ(4, llg.vertex(2).get_dw());
   EXPECT_EQ(2, llg.vertex(1).get_p());
-  EXPECT_EQ(2, llg.vertex(1).get_d());
+  EXPECT_EQ(2, llg.vertex(1).get_dw());
   EXPECT_EQ(1, llg.vertex(4).get_p());
-  EXPECT_EQ(-2, llg.vertex(4).get_d());
+  EXPECT_EQ(-2, llg.vertex(4).get_dw());
 }
 
 TEST(SSSP, BellmanFordWithoutNegativeCircleWithUnconnectedNodes)
@@ -67,15 +68,15 @@ TEST(SSSP, BellmanFordWithoutNegativeCircleWithUnconnectedNodes)
 		  SSSPWeightEdgeGraph<SSSPVertexGraph>> llg(vs, es);
   EXPECT_TRUE(bellman_ford(llg, 0));
   EXPECT_EQ(0, llg.vertex(3).get_p());
-  EXPECT_EQ(7, llg.vertex(3).get_d());
+  EXPECT_EQ(7, llg.vertex(3).get_dw());
   EXPECT_EQ(3, llg.vertex(2).get_p());
-  EXPECT_EQ(4, llg.vertex(2).get_d());
+  EXPECT_EQ(4, llg.vertex(2).get_dw());
   EXPECT_EQ(2, llg.vertex(1).get_p());
-  EXPECT_EQ(2, llg.vertex(1).get_d());
+  EXPECT_EQ(2, llg.vertex(1).get_dw());
   EXPECT_EQ(1, llg.vertex(4).get_p());
-  EXPECT_EQ(-2, llg.vertex(4).get_d());
-  EXPECT_FALSE(llg.vertex(5).is_d_set());
-  EXPECT_FALSE(llg.vertex(6).is_d_set());
+  EXPECT_EQ(-2, llg.vertex(4).get_dw());
+  EXPECT_FALSE(llg.vertex(5).is_dw_set());
+  EXPECT_FALSE(llg.vertex(6).is_dw_set());
 }
 
 TEST(SSSP, BellmanFordWithNegativeCircle)
@@ -101,4 +102,43 @@ TEST(SSSP, BellmanFordWithNegativeCircle)
   LinkedListGraph<SSSPVertexGraph,
 		  SSSPWeightEdgeGraph<SSSPVertexGraph>> llg(vs, es);
   EXPECT_FALSE(bellman_ford(llg, 0));
+}
+
+TEST(SSSP, Dag)
+{
+  auto v0 = SSSPDFSVertexGraph(0);
+  auto v1 = SSSPDFSVertexGraph(1);
+  auto v2 = SSSPDFSVertexGraph(2);
+  auto v3 = SSSPDFSVertexGraph(3);
+  auto v4 = SSSPDFSVertexGraph(4);
+  auto v5 = SSSPDFSVertexGraph(5);
+  auto e0 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v0, v1, 5);
+  auto e1 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v0, v2, 3);
+  auto e2 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v1, v2, 2);
+  auto e3 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v1, v3, 6);
+  auto e4 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v2, v3, 7);
+  auto e5 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v2, v4, 4);
+  auto e6 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v2, v5, 2);
+  auto e7 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v3, v4, -1);
+  auto e8 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v3, v5, 1);
+  auto e9 = SSSPWeightEdgeGraph<SSSPDFSVertexGraph>(v4, v5, -2);
+  std::vector<SSSPDFSVertexGraph> vs = {v0, v1, v2, v3, v4, v5};
+  std::vector<SSSPWeightEdgeGraph<SSSPDFSVertexGraph>> es =
+    {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9};
+  LinkedListGraph<SSSPDFSVertexGraph,
+		  SSSPWeightEdgeGraph<SSSPDFSVertexGraph>> llg(vs, es);
+  dag_shortest_paths(llg, 1);
+  EXPECT_FALSE(llg.vertex(0).is_dw_set());
+  EXPECT_FALSE(llg.vertex(0).is_p_set());
+  // data p of source node is effective due to topo sort
+  EXPECT_EQ(0, llg.vertex(1).get_p());
+  EXPECT_EQ(0, llg.vertex(1).get_dw());
+  EXPECT_EQ(1, llg.vertex(2).get_p());
+  EXPECT_EQ(2, llg.vertex(2).get_dw());
+  EXPECT_EQ(1, llg.vertex(3).get_p());
+  EXPECT_EQ(6, llg.vertex(3).get_dw());
+  EXPECT_EQ(3, llg.vertex(4).get_p());
+  EXPECT_EQ(5, llg.vertex(4).get_dw());
+  EXPECT_EQ(4, llg.vertex(5).get_p());
+  EXPECT_EQ(3, llg.vertex(5).get_dw());
 }
