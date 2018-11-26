@@ -55,6 +55,40 @@ namespace CLRS
     void set_dw_flag() {dw_set = true;}
   };
 
+  // snother class supports dijkstra and fibonacci heap
+  class DijkstraVertexGraph: public VertexGraph
+  {
+    unsigned dw = 0;
+    bool dw_set = false;
+    std::size_t p = 0;
+    bool p_set = false;
+  public:
+    DijkstraVertexGraph(std::size_t i):
+      VertexGraph(i) {}
+    unsigned get_dw() const {return dw;}
+    void set_dw(unsigned d) {dw = d;}
+    bool is_dw_set() const {return dw_set;}
+    void set_dw_flag() {dw_set = true;}
+    std::size_t get_p() const {return p;}
+    void set_p(std::size_t P) {p = P;}
+    bool is_p_set() const {return p_set;}
+    void set_p_flag() {p_set = true;}
+    bool operator<(const DijkstraVertexGraph &v) const;
+  };
+
+  bool DijkstraVertexGraph::operator<
+  (const DijkstraVertexGraph &v) const
+  {
+    if(dw_set && v.is_dw_set())
+      return dw < v.get_dw();
+    else if(dw_set && !v.is_dw_set())
+      return true;
+    else if(!dw_set && v.is_dw_set())
+      return false;
+    else
+      return true;
+  }
+
   /*
    * textbook assumes algorithms in
    * this chpater are based on linked list graph
@@ -68,19 +102,18 @@ namespace CLRS
     g.vertex(s).set_dw_flag();
   }
 
-  template <typename T>
+  template <typename T1, typename T2>
   inline void sssp_relax_helper
-  (T &u, T&v,
-   std::size_t w)
+  (const T1 &u, T1 &v, const T2 &e)
   {
-    v.set_dw(u.get_dw() + w);
+    v.set_dw(u.get_dw() + e.get_weight());
     v.set_dw_flag();
     v.set_p(u.get_index());
     v.set_p_flag();
   }
 
   template <typename T1, typename T2>
-  void sssp_relax
+  T1 sssp_relax
   (LinkedListGraph<T1, T2> &g, const T2 &e)
   {
     std::size_t ui = e.get_first_vertex();
@@ -90,10 +123,11 @@ namespace CLRS
     if(v.is_dw_set() && u.is_dw_set())
       {
 	if(v.get_dw() > (u.get_dw() + e.get_weight()))
-	  sssp_relax_helper(u, v, e.get_weight());
+	  sssp_relax_helper(u, v, e);
       }
     else if(!v.is_dw_set() && u.is_dw_set())
-      sssp_relax_helper(u, v, e.get_weight());
+      sssp_relax_helper(u, v, e);
+    return v;
   }
 }
 

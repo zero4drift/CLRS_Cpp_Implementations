@@ -4,6 +4,7 @@
 #include "chapter-24/single_source_shortest_paths/sssp_utilities.h"
 #include "chapter-24/single_source_shortest_paths/bellman_ford/bellman_ford.h"
 #include "chapter-24/single_source_shortest_paths/dag_shortest_paths/dag_shortest_paths.h"
+#include "chapter-24/single_source_shortest_paths/dijkstra/dijkstra.h"
 
 using namespace CLRS;
 
@@ -141,4 +142,37 @@ TEST(SSSP, Dag)
   EXPECT_EQ(5, llg.vertex(4).get_dw());
   EXPECT_EQ(4, llg.vertex(5).get_p());
   EXPECT_EQ(3, llg.vertex(5).get_dw());
+}
+
+TEST(SSSP, Dijkstra)
+{
+  auto v0 = DijkstraVertexGraph(0);
+  auto v1 = DijkstraVertexGraph(1);
+  auto v2 = DijkstraVertexGraph(2);
+  auto v3 = DijkstraVertexGraph(3);
+  auto v4 = DijkstraVertexGraph(4);
+  auto e0 = WeightEdgeGraph<DijkstraVertexGraph>(v0, v1, 10);
+  auto e1 = WeightEdgeGraph<DijkstraVertexGraph>(v1, v2, 1);
+  auto e2 = WeightEdgeGraph<DijkstraVertexGraph>(v2, v3, 4);
+  auto e3 = WeightEdgeGraph<DijkstraVertexGraph>(v3, v2, 6);
+  auto e4 = WeightEdgeGraph<DijkstraVertexGraph>(v4, v3, 2);
+  auto e5 = WeightEdgeGraph<DijkstraVertexGraph>(v0, v4, 5);
+  auto e6 = WeightEdgeGraph<DijkstraVertexGraph>(v1, v4, 2);
+  auto e7 = WeightEdgeGraph<DijkstraVertexGraph>(v4, v1, 3);
+  auto e8 = WeightEdgeGraph<DijkstraVertexGraph>(v4, v2, 9);
+  auto e9 = WeightEdgeGraph<DijkstraVertexGraph>(v3, v0, 7);
+  std::vector<DijkstraVertexGraph> vs = {v0, v1, v2, v3, v4};
+  std::vector<WeightEdgeGraph<DijkstraVertexGraph>> es =
+    {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9};
+  LinkedListGraph<DijkstraVertexGraph,
+		  WeightEdgeGraph<DijkstraVertexGraph>> llg(vs, es);
+  dijkstra(llg, 0);
+  EXPECT_EQ(0, llg.vertex(4).get_p());
+  EXPECT_EQ(5, llg.vertex(4).get_dw());
+  EXPECT_EQ(4, llg.vertex(3).get_p());
+  EXPECT_EQ(7, llg.vertex(3).get_dw());
+  EXPECT_EQ(4, llg.vertex(1).get_p());
+  EXPECT_EQ(8, llg.vertex(1).get_dw());
+  EXPECT_EQ(1, llg.vertex(2).get_p());
+  EXPECT_EQ(9, llg.vertex(2).get_dw());
 }
