@@ -55,7 +55,7 @@ namespace CLRS
     void set_dw_flag() {dw_set = true;}
   };
 
-  // snother class supports dijkstra and fibonacci heap
+  // another class supports dijkstra and fibonacci heap
   class DijkstraVertexGraph: public VertexGraph
   {
     unsigned dw = 0;
@@ -86,7 +86,7 @@ namespace CLRS
     else if(!dw_set && v.is_dw_set())
       return false;
     else
-      return true;
+      return false;
   }
 
   /*
