@@ -16,6 +16,9 @@ namespace CLRS
 	      const T &v2):
       edge(std::make_pair(v1.get_index(),
 			  v2.get_index())) {}
+    EdgeGraph(std::size_t i1,
+	      std::size_t i2):
+      edge(std::make_pair(i1, i2)) {}
     std::size_t get_first_vertex() const
     {return edge.first;}
     std::size_t get_second_vertex() const

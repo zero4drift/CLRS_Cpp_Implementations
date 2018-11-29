@@ -16,6 +16,10 @@ namespace CLRS
 		    const T &v2,
 		    unsigned w):
       EdgeGraph<T>(v1, v2), weight(w) {}
+    WeightEdgeGraph(std::size_t i1,
+		    std::size_t i2,
+		    unsigned w):
+      EdgeGraph<T>(i1, i2), weight(w) {}
     unsigned get_weight() const {return weight;}
   };
 
