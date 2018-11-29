@@ -35,6 +35,7 @@ namespace CLRS
     void set_dw(int D) {dw = D;}
     bool is_dw_set() const {return dw_set;}
     void set_dw_flag() {dw_set = true;}
+    void clear_dw_flag() {dw_set = false;}
     std::size_t get_p() const {return p;}
     void set_p(std::size_t P) {p = P;}
     bool is_p_set() const {return p_set;}
@@ -53,6 +54,7 @@ namespace CLRS
     void set_dw(int D) {dw = D;}
     bool is_dw_set() const {return dw_set;}
     void set_dw_flag() {dw_set = true;}
+    void clear_dw_flag() {dw_set = false;}
   };
 
   // another class supports dijkstra and fibonacci heap
@@ -69,6 +71,7 @@ namespace CLRS
     void set_dw(unsigned d) {dw = d;}
     bool is_dw_set() const {return dw_set;}
     void set_dw_flag() {dw_set = true;}
+    void clear_dw_flag() {dw_set = false;}
     std::size_t get_p() const {return p;}
     void set_p(std::size_t P) {p = P;}
     bool is_p_set() const {return p_set;}
@@ -98,6 +101,13 @@ namespace CLRS
   (LinkedListGraph<T1, T2> &g,
    std::size_t s)
   {
+    for(std::size_t i = 0;
+	i != g.get_vertexes_size();
+	++i)
+      {
+	g.vertex(i).set_dw(0);
+	g.vertex(i).clear_dw_flag();
+      }
     g.vertex(s).set_dw(0);
     g.vertex(s).set_dw_flag();
   }

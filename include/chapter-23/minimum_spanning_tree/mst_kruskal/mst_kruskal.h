@@ -32,8 +32,8 @@ namespace CLRS
 	vp.push_back(p);
 	CLRS::tree_disjoint_make_set(p);
       }
-    std::sort(g.get_edges().begin(),
-	      g.get_edges().end(),
+    std::sort(g.edgesr().begin(),
+	      g.edgesr().end(),
 	      [](const WeightEdgeGraph<VertexGraph> &e1,
 		 const WeightEdgeGraph<VertexGraph> &e2)
 	      {return e1.get_weight() < e2.get_weight();});
