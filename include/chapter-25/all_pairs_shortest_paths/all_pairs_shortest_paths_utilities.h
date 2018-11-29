@@ -75,6 +75,10 @@ namespace CLRS
       std::size_t i2 = e.get_second_vertex();
       return a[i1][i2].is_weight_set();
     }
+    bool edge_or_not(std::size_t i1, std::size_t i2) const
+    {
+      return a[i1][i2].is_weight_set();
+    }
     std::vector<std::vector<APSPMatrixElement>> get_matrix() const
     {return a;}
   };
@@ -85,6 +89,11 @@ namespace CLRS
     BaseGraph<VertexGraph, APSPWeightEdgeGraph>(vs, es),
     a(vs.size(), std::vector<APSPMatrixElement>(vs.size()))
   {
+    for(std::size_t i = 0; i != vs.size(); ++i)
+      {
+	a[i][i].set_weight(0);
+	a[i][i].set_weight_set();
+      }
     auto it = es.cbegin();
     while(it != es.cend())
       {

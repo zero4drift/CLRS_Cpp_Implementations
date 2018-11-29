@@ -23,10 +23,7 @@ namespace CLRS
 	  {
 	    temp = l[i][k] + w[k][j];
 	    if(temp < lr[i][j])
-	      {
-		lr[i][j].set_weight(temp.get_weight());
-		lr[i][j].set_weight_set();
-	      }
+	      lr[i][j] = temp;
 	  }
     return lr;
   }
