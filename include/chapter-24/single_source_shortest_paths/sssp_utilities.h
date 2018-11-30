@@ -22,24 +22,31 @@ namespace CLRS
     int get_weight() const {return weight;}
   };
 
-  class SSSPVertexGraph: public VertexGraph
+class SSSPBaseVertexGraph: public VertexGraph
   {
-    int dw = 0;
-    bool dw_set = false;
     std::size_t p = 0;
     bool p_set = false;
   public:
-    SSSPVertexGraph(std::size_t i):
+    SSSPBaseVertexGraph(std::size_t i):
       VertexGraph(i) {}
+    std::size_t get_p() const {return p;}
+    void set_p(std::size_t P) {p = P;}
+    bool is_p_set() const {return p_set;}
+    void set_p_flag() {p_set = true;}
+  };
+
+  class SSSPVertexGraph: public SSSPBaseVertexGraph
+  {
+    int dw = 0;
+    bool dw_set = false;
+  public:
+    SSSPVertexGraph(std::size_t i):
+      SSSPBaseVertexGraph(i) {}
     int get_dw() const {return dw;}
     void set_dw(int D) {dw = D;}
     bool is_dw_set() const {return dw_set;}
     void set_dw_flag() {dw_set = true;}
     void clear_dw_flag() {dw_set = false;}
-    std::size_t get_p() const {return p;}
-    void set_p(std::size_t P) {p = P;}
-    bool is_p_set() const {return p_set;}
-    void set_p_flag() {p_set = true;}
   };
 
   // another class supports SSSP and also dfs
@@ -58,24 +65,18 @@ namespace CLRS
   };
 
   // another class supports dijkstra and fibonacci heap
-  class DijkstraVertexGraph: public VertexGraph
+  class DijkstraVertexGraph: public SSSPBaseVertexGraph
   {
     unsigned dw = 0;
     bool dw_set = false;
-    std::size_t p = 0;
-    bool p_set = false;
   public:
     DijkstraVertexGraph(std::size_t i):
-      VertexGraph(i) {}
+      SSSPBaseVertexGraph(i) {}
     unsigned get_dw() const {return dw;}
     void set_dw(unsigned d) {dw = d;}
     bool is_dw_set() const {return dw_set;}
     void set_dw_flag() {dw_set = true;}
     void clear_dw_flag() {dw_set = false;}
-    std::size_t get_p() const {return p;}
-    void set_p(std::size_t P) {p = P;}
-    bool is_p_set() const {return p_set;}
-    void set_p_flag() {p_set = true;}
     bool operator<(const DijkstraVertexGraph &v) const;
   };
 
