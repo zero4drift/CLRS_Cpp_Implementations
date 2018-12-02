@@ -40,6 +40,9 @@ namespace CLRS
    EdgeGraph<BFSVertexGraph>> &g,
    std::size_t i)
   {
+    // initialize
+    for(std::size_t i = 0; i != g.get_vertexes_size(); ++i)
+      g.vertex(i).set_color(BFSVertexColor::white);
     g.vertex(i).set_color(BFSVertexColor::gray);
     g.vertex(i).set_d_b();
     std::queue<std::size_t> q;

@@ -17,6 +17,8 @@ namespace CLRS
     LinkedListGraph(const std::vector<T1> &vs,
 		    const std::vector<T2> &es);
     bool edge_or_not(const T2 &e) const override;
+    bool edge_or_not(std::size_t i1,
+		     std::size_t i2) const override;
     std::vector<const T2*> get_adj_vertexes(std::size_t i) const
     {std::vector<const T2*> r;
       for(const auto &ep : adj[i])
@@ -32,6 +34,17 @@ namespace CLRS
       e.get_first_vertex();
     std::size_t j =
       e.get_second_vertex();
+    for(const auto &ep : adj[i])
+      {
+	if(ep->get_second_vertex() == j)
+	  return true;
+      }
+    return false;
+  }
+  template <typename T1, typename T2>
+  bool LinkedListGraph<T1, T2>::edge_or_not(std::size_t i,
+					    std::size_t j) const
+  {
     for(const auto &ep : adj[i])
       {
 	if(ep->get_second_vertex() == j)

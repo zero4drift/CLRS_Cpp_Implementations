@@ -23,6 +23,9 @@ namespace CLRS
       std::size_t i2 = e.get_second_vertex();
       return a[i1][i2];
     }
+    bool edge_or_not(std::size_t i1,
+		     std::size_t i2) const override
+    {return a[i1][i2];}
   };
 
   template <typename T1, typename T2>

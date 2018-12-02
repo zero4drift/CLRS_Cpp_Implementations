@@ -29,6 +29,7 @@ namespace CLRS
     
     // indexes of the passed in object are inside the range
     virtual bool edge_or_not (const T2 &) const = 0;
+    virtual bool edge_or_not(std::size_t i1, std::size_t i2) const = 0;
 
     // exception if nothing match
     T1 &vertex(std::size_t i)
