@@ -37,21 +37,28 @@ namespace CLRS
     public LinkedListGraph<BFSVertexGraph, MaximumFlowEdgeGraph>
   {
   public:
-    void reverse_edge_incr_f(std::size_t i, std::size_t j, unsigned F);
+    MaximumFlowLinkedListGraph(const std::vector<BFSVertexGraph> vs,
+			       const std::vector<MaximumFlowEdgeGraph> es);
   };
 
-  void MaximumFlowLinkedListGraph::reverse_edge_incr_f(std::size_t i,
-						       std::size_t j,
-						       unsigned F)
+  MaximumFlowLinkedListGraph::
+  MaximumFlowLinkedListGraph
+  (const std::vector<BFSVertexGraph> vs,
+   const std::vector<MaximumFlowEdgeGraph> es):
+    LinkedListGraph<BFSVertexGraph, MaximumFlowEdgeGraph>(vs, es)
   {
-    if(edge_or_not(i, j))
-      edge(i, j).incr_f(F);
-    else
+    for(const auto &e : BaseGraph::edges)
       {
-	auto e = MaximumFlowEdgeGraph(i, j, F);
-	e.set_residual();
-	BaseGraph::edges.push_back(e);
-	LinkedListGraph::adj[i].push_back(&BaseGraph::edges.back());
+	std::size_t u = e.get_first_vertex();
+	std::size_t v = e.get_second_vertex();
+	if(!edge_or_not(v, u))
+	  {
+	    auto e = MaximumFlowEdgeGraph(v, u, 0);
+	    e.set_residual();
+	    std::size_t index = edges.size();
+	    BaseGraph::edges.push_back(e);
+	    LinkedListGraph::adj[v].push_back(index);
+	  }
       }
   }
 
@@ -62,7 +69,10 @@ namespace CLRS
     std::vector<MaximumFlowEdgeGraph> r;
     while(t != s)
       {
-	r.push_back(g.edge(g.vertex(t).get_p(), t));
+	if(g.vertex(t).is_p_set())
+	  r.push_back(g.edge(g.vertex(t).get_p(), t));
+	else
+	  return std::vector<MaximumFlowEdgeGraph>();
 	t = g.vertex(t).get_p();
       }
     return r;
@@ -74,7 +84,13 @@ namespace CLRS
   {
     // initialize
     for(std::size_t i = 0; i != g.get_vertexes_size(); ++i)
-      g.vertex(i).set_color(BFSVertexColor::white);
+      {
+	g.vertex(i).set_color(BFSVertexColor::white);
+	g.vertex(i).set_p(0);
+	g.vertex(i).clear_p_b();
+	g.vertex(i).set_d(0);
+	g.vertex(i).clear_d_b();
+      }
     g.vertex(s).set_color(BFSVertexColor::gray);
     g.vertex(s).set_d_b();
     std::queue<std::size_t> q;
@@ -83,12 +99,13 @@ namespace CLRS
       {
 	std::size_t u = q.front();
 	q.pop();
-	for(const auto &ep : g.get_adj_vertexes(u))
+	for(const auto &ev : g.get_adj_vertexes(u))
 	  {
-	    if((!ep->get_residual() && ep->get_f() != ep->get_c())
-	       || (ep->get_residual() && ep->get_f() != 0))
+	    auto e = g.get_edges()[ev];
+	    if((!e.get_residual() && e.get_f() != e.get_c())
+	       || (e.get_residual() && e.get_f() != 0))
 	      {
-		std::size_t v = ep->get_second_vertex();
+		std::size_t v = e.get_second_vertex();
 		if(g.vertex(v).get_color() ==
 		   BFSVertexColor::white)
 		  {
