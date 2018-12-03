@@ -51,9 +51,9 @@ namespace CLRS
       {
 	std::size_t u = q.front();
 	q.pop();
-	for(const auto &ep : g.get_adj_vertexes(u))
+	for(const auto &ev : g.get_adj_vertexes(u))
 	  {
-	    std::size_t v = ep->get_second_vertex();
+	    std::size_t v = g.edgesr()[ev].get_second_vertex();
 	    if(g.vertex(v).get_color() ==
 	       BFSVertexColor::white)
 	      {

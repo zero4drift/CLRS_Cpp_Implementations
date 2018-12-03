@@ -17,8 +17,8 @@ namespace CLRS
     initialize_single_source(g, s);
     for(std::size_t u : l)
       {
-	for(const auto &ep : g.get_adj_vertexes(u))
-	  sssp_relax(g, *ep);
+	for(const auto &ev : g.get_adj_vertexes(u))
+	  sssp_relax(g, g.edgesr()[ev]);
       }
   }
 }

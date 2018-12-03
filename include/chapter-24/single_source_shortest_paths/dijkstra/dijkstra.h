@@ -37,11 +37,11 @@ namespace CLRS
     while(fib_h.get_n())
       {
 	auto u = fib_heap_extract_min(fib_h);
-	for(const auto &ep : g.get_adj_vertexes
+	for(const auto &ev : g.get_adj_vertexes
 	      (u->get_key().get_index()))
 	  {
-	    auto vr = sssp_relax(g, *ep);
-	    auto v = vshr[ep->get_second_vertex()];
+	    auto vr = sssp_relax(g, g.edgesr()[ev]);
+	    auto v = vshr[g.edgesr()[ev].get_second_vertex()];
 	    if(vr < v->get_key())
 	      fib_heap_decrease_key(fib_h, v, vr);
 	  }
