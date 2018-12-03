@@ -59,8 +59,8 @@ namespace CLRS
    const std::vector<T2> &es):
     BaseGraph<T1, T2>(vs, es), adj(vs.size())
   {
-    auto it = es.cbegin();
-    while(it != es.cend())
+    auto it = BaseGraph<T1, T2>::edges.cbegin();
+    while(it != BaseGraph<T1, T2>::edges.cend())
       {
 	std::size_t i1 =
 	  (*it).get_first_vertex();
