@@ -28,10 +28,12 @@ namespace CLRS
     std::size_t get_p() const {return p_index;}
     bool is_p_set() const {return p_set;}
     void set_p_b() {p_set = true;}
+    void clear_p_b() {p_set = false;}
     void set_p(std::size_t i) {p_index = i;}
     std::size_t get_d() const {return d;}
     bool is_d_set() const {return d_set;}
     void set_d_b() {d_set = true;}
+    void clear_d_b() {d_set = false;}
     void set_d(std::size_t D) {d = D;}
   };
 
@@ -42,7 +44,13 @@ namespace CLRS
   {
     // initialize
     for(std::size_t i = 0; i != g.get_vertexes_size(); ++i)
-      g.vertex(i).set_color(BFSVertexColor::white);
+      {
+	g.vertex(i).set_color(BFSVertexColor::white);
+	g.vertex(i).set_p(0);
+	g.vertex(i).clear_p_b();
+	g.vertex(i).set_d(0);
+	g.vertex(i).clear_d_b();
+      }
     g.vertex(i).set_color(BFSVertexColor::gray);
     g.vertex(i).set_d_b();
     std::queue<std::size_t> q;
