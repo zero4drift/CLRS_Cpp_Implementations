@@ -1,3 +1,12 @@
+/*
+ * Flow graph implemented here shall make
+ * the graph every-node-doublely-pointed,
+ * the is_residual bool data member indicates
+ * whether this edge a real edge or a residual edge,
+ * a real edge taken into account when the data member
+ * 0 =< f(flow) < c(content), and a residual edge taken
+ * into account when 0 < f <= c.
+ */
 #ifndef MAXIMUM_FLOW_UTILITIES_H
 #define MAXIMUM_FLOW_UTILITIES_H
 
@@ -62,23 +71,36 @@ namespace CLRS
       }
   }
 
-  std::vector<MaximumFlowEdgeGraph> maximum_flow_path
+  std::vector<std::size_t> maximum_flow_path
   (MaximumFlowLinkedListGraph &g,
    std::size_t s, std::size_t t)
   {
-    std::vector<MaximumFlowEdgeGraph> r;
+    std::vector<std::size_t> r;
     while(t != s)
       {
 	if(g.vertex(t).is_p_set())
-	  r.push_back(g.edge(g.vertex(t).get_p(), t));
+	  {
+	    std::size_t p = g.vertex(t).get_p();
+	    for(std::size_t i = 0;
+		i != g.get_edges().size();
+		++i)
+	      {
+		if(g.edge(i).get_first_vertex() == p
+		   && g.edge(i).get_second_vertex() == t)
+		  {
+		    r.push_back(i);
+		    break;
+		  }
+	      }
+	    t = p;
+	  }
 	else
-	  return std::vector<MaximumFlowEdgeGraph>();
-	t = g.vertex(t).get_p();
+	  return {};
       }
     return r;
   }
 
-  std::vector<MaximumFlowEdgeGraph> maximum_bfs_graph
+  std::vector<std::size_t> maximum_bfs_graph
   (MaximumFlowLinkedListGraph &g,
    std::size_t s, std::size_t t)
   {
@@ -101,7 +123,7 @@ namespace CLRS
 	q.pop();
 	for(const auto &ev : g.get_adj_vertexes(u))
 	  {
-	    auto e = g.get_edges()[ev];
+	    auto &e = g.edge(ev);
 	    if((!e.get_residual() && e.get_f() != e.get_c())
 	       || (e.get_residual() && e.get_f() != 0))
 	      {
@@ -127,12 +149,10 @@ namespace CLRS
   unsigned get_cf(const MaximumFlowEdgeGraph &e,
 		  MaximumFlowLinkedListGraph &g)
   {
-    std::size_t u = e.get_first_vertex();
-    std::size_t v = e.get_second_vertex();
-    if(g.edge_or_not(u, v))
+    if(!e.get_residual())
       return e.get_c() - e.get_f();
-    else if(g.edge_or_not(v, u))
-      return g.edge(v, u).get_f();
+    else if(e.get_residual())
+      return e.get_f();
     return 0;
   }
 }

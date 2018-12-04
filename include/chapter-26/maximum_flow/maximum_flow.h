@@ -10,36 +10,32 @@ namespace CLRS
   void ford_fulkserson(MaximumFlowLinkedListGraph &g,
 		       std::size_t s, std::size_t t)
   {
-    auto gf = MaximumFlowLinkedListGraph
-      (g.get_vertexes(), g.get_edges());
-    auto p = maximum_bfs_graph(gf, s, t);
-    std::size_t i = 2;
+    auto p = maximum_bfs_graph(g, s, t);
     while(p.size())
       {
 	unsigned min_cf = -1;
-	for(const auto &e : p)
+	for(const auto &ev : p)
 	  {
-	    if(get_cf(e, g) < min_cf)
-	      min_cf = get_cf(e, g);
+	    if(get_cf(g.edge(ev), g) < min_cf)
+	      min_cf = get_cf(g.edge(ev), g);
 	  }
-	for(const auto &e : p)
+	for(const auto &ev : p)
 	  {
-	    std::size_t u = e.get_first_vertex();
-	    std::size_t v = e.get_second_vertex();
+	    auto &e = g.edge(ev);
 	    if(!e.get_residual())
 	      {
-		gf.edge(u, v).incr_f(min_cf);
-		g.edge(u, v).incr_f(min_cf);
-		gf.edge(v, u).incr_f(min_cf);
+		e.incr_f(min_cf);
+		g.edge(e.get_second_vertex(),
+		       e.get_first_vertex()).incr_f(min_cf);
 	      }
 	    else
 	      {
-		gf.edge(v, u).decr_f(min_cf);
-		g.edge(v, u).decr_f(min_cf);
-		gf.edge(u, v).decr_f(min_cf);
+		e.decr_f(min_cf);
+		g.edge(e.get_second_vertex(),
+		       e.get_first_vertex()).decr_f(min_cf);
 	      }
 	  }
-	p = maximum_bfs_graph(gf, s, t);
+	p = maximum_bfs_graph(g, s, t);
       }
   }
 }
