@@ -35,6 +35,7 @@ namespace CLRS
     T1 &vertex(std::size_t i)
     {return vertexes[i];}
     T2 &edge(std::size_t i, std::size_t j);
+    T2 &edge(std::size_t i) {return edges[i];}
 
     // return amount of vertexes
     std::size_t get_vertexes_size() const
