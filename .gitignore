@@ -32,5 +32,4 @@
 *.app
 
 # ccls
-.ccls
 .ccls-cache/
