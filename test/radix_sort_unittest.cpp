@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-8/radix_sort/radix_sort.h"
+#include "chapter-8/radix_sort/radix_sort.hpp"
 
 using namespace CLRS;
 

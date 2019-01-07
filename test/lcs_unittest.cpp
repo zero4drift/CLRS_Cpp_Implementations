@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-15/lcs/lcs.h"
+#include "chapter-15/lcs/lcs.hpp"
 
 using namespace CLRS;
 

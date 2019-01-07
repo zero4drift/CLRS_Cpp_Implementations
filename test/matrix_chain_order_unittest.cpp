@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-15/matrix_chain_order/matrix_chain_order.h"
+#include "chapter-15/matrix_chain_order/matrix_chain_order.hpp"
 
 using namespace CLRS;
 

@@ -2,13 +2,13 @@
 #include <queue>
 #include <vector>
 #include <gtest/gtest.h>
-#include "chapter-22/vertex_graph/vertex_graph.h"
-#include "chapter-22/edge_graph/edge_graph.h"
-#include "chapter-22/base_graph/base_graph.h"
-#include "chapter-22/linked_list_graph/linked_list_graph.h"
-#include "chapter-22/matrix_graph/matrix_graph.h"
-#include "chapter-22/bfs_graph/bfs_graph.h"
-#include "chapter-22/dfs_graph/dfs_graph.h"
+#include "chapter-22/vertex_graph/vertex_graph.hpp"
+#include "chapter-22/edge_graph/edge_graph.hpp"
+#include "chapter-22/base_graph/base_graph.hpp"
+#include "chapter-22/linked_list_graph/linked_list_graph.hpp"
+#include "chapter-22/matrix_graph/matrix_graph.hpp"
+#include "chapter-22/bfs_graph/bfs_graph.hpp"
+#include "chapter-22/dfs_graph/dfs_graph.hpp"
 
 using namespace CLRS;
 

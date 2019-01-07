@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "chapter-9/maximum_minimum/maximum_minimum.h"
-#include "chapter-9/maximum_minimum/minimum.h"
+#include "chapter-9/maximum_minimum/maximum_minimum.hpp"
+#include "chapter-9/maximum_minimum/minimum.hpp"
 
 using namespace CLRS;
 

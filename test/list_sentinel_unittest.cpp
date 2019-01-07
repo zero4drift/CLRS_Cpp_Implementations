@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-10/list/list_sentinel.h"
+#include "chapter-10/list/list_sentinel.hpp"
 
 using namespace CLRS;
 

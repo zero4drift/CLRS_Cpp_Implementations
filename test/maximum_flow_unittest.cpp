@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "chapter-22/bfs_graph/bfs_graph.h"
-#include "chapter-26/maximum_flow_utilities.h"
-#include "chapter-26/maximum_flow/maximum_flow.h"
+#include "chapter-22/bfs_graph/bfs_graph.hpp"
+#include "chapter-26/maximum_flow_utilities.hpp"
+#include "chapter-26/maximum_flow/maximum_flow.hpp"
 
 using namespace CLRS;
 

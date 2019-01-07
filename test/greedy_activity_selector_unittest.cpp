@@ -1,6 +1,6 @@
 #include <vector>
 #include <gtest/gtest.h>
-#include "chapter-16/greedy_activity_selector/greedy_activity_selector.h"
+#include "chapter-16/greedy_activity_selector/greedy_activity_selector.hpp"
 
 
 using namespace CLRS;

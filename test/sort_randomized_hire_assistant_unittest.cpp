@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-5/hire_assistant_permute_by_sorting/sort_randomized_hire_assistant.h"
+#include "chapter-5/hire_assistant_permute_by_sorting/sort_randomized_hire_assistant.hpp"
 
 using namespace CLRS;
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-9/randomized_select/randomized_select.h"
+#include "chapter-9/randomized_select/randomized_select.hpp"
 
 using namespace CLRS;
 

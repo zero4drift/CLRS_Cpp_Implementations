@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-15/cut_rod/recursive_cut_rod.h"
+#include "chapter-15/cut_rod/recursive_cut_rod.hpp"
 
 using namespace CLRS;
 

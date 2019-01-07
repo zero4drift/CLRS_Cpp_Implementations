@@ -1,7 +1,7 @@
 #include <memory>
 #include <stdexcept>
 #include <gtest/gtest.h>
-#include "chapter-19/fibonacci_heap/fibonacci_heap.h"
+#include "chapter-19/fibonacci_heap/fibonacci_heap.hpp"
 
 
 using namespace CLRS;

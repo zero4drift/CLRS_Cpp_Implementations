@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-7/randomized_quicksort/randomized_quicksort.h"
+#include "chapter-7/randomized_quicksort/randomized_quicksort.hpp"
 
 using namespace CLRS;
 

@@ -1,7 +1,7 @@
 #include <memory>
 #include <vector>
 #include <gtest/gtest.h>
-#include "chapter-18/B_trees/B_trees.h"
+#include "chapter-18/B_trees/B_trees.hpp"
 
 using namespace CLRS;
 

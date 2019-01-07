@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-11/hash_table_chaining/hash_table_chaining.h"
+#include "chapter-11/hash_table_chaining/hash_table_chaining.hpp"
 
 using namespace CLRS;
 

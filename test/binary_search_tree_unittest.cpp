@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "chapter-10/tree/tree.h"
-#include "chapter-12/binary_search_tree/binary_search_tree.h"
+#include "chapter-10/tree/tree.hpp"
+#include "chapter-12/binary_search_tree/binary_search_tree.hpp"
 
 using namespace CLRS;
 

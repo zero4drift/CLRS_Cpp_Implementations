@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-8/counting_sort/counting_sort.h"
+#include "chapter-8/counting_sort/counting_sort.hpp"
 
 using namespace CLRS;
 

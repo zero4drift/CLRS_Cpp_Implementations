@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-9/select/select.h"
+#include "chapter-9/select/select.hpp"
 
 using namespace CLRS;
 

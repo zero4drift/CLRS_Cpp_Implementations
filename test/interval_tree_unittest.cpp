@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-14/interval_tree/interval_tree.h"
+#include "chapter-14/interval_tree/interval_tree.hpp"
 
 using namespace CLRS;
 

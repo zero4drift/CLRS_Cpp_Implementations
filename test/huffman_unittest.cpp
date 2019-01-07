@@ -2,7 +2,7 @@
 #include <bitset>
 #include <memory>
 #include <gtest/gtest.h>
-#include "chapter-16/huffman/huffman.h"
+#include "chapter-16/huffman/huffman.hpp"
 
 
 using namespace CLRS;

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-4/square_matrix_multiply/square_matrix_multiply_recursive.h"
+#include "chapter-4/square_matrix_multiply/square_matrix_multiply_recursive.hpp"
 
 using namespace CLRS;
 

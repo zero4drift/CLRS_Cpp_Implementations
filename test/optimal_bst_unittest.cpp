@@ -1,6 +1,6 @@
 #include <utility>
 #include <gtest/gtest.h>
-#include "chapter-15/optimal_binary_search_tree/optimal_bst.h"
+#include "chapter-15/optimal_binary_search_tree/optimal_bst.hpp"
 
 using namespace CLRS;
 

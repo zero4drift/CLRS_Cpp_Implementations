@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-8/bucket_sort/bucket_sort.h"
+#include "chapter-8/bucket_sort/bucket_sort.hpp"
 
 using namespace CLRS;
 

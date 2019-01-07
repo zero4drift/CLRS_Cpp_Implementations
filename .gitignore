@@ -31,6 +31,6 @@
 *.out
 *.app
 
-# cquery
-.cquery
-.cquery_cached_index/
+# ccls
+.ccls
+.ccls-cache/

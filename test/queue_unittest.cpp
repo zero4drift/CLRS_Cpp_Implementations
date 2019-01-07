@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <gtest/gtest.h>
-#include "chapter-10/queue/queue.h"
+#include "chapter-10/queue/queue.hpp"
 
 using namespace CLRS;
 

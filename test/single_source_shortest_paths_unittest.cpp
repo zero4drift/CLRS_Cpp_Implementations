@@ -1,10 +1,10 @@
 #include <vector>
 #include <gtest/gtest.h>
-#include "chapter-22/linked_list_graph/linked_list_graph.h"
-#include "chapter-24/single_source_shortest_paths/sssp_utilities.h"
-#include "chapter-24/single_source_shortest_paths/bellman_ford/bellman_ford.h"
-#include "chapter-24/single_source_shortest_paths/dag_shortest_paths/dag_shortest_paths.h"
-#include "chapter-24/single_source_shortest_paths/dijkstra/dijkstra.h"
+#include "chapter-22/linked_list_graph/linked_list_graph.hpp"
+#include "chapter-24/single_source_shortest_paths/sssp_utilities.hpp"
+#include "chapter-24/single_source_shortest_paths/bellman_ford/bellman_ford.hpp"
+#include "chapter-24/single_source_shortest_paths/dag_shortest_paths/dag_shortest_paths.hpp"
+#include "chapter-24/single_source_shortest_paths/dijkstra/dijkstra.hpp"
 
 using namespace CLRS;
 

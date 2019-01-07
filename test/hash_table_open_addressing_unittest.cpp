@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <stdexcept>
-#include "chapter-11/hash_table_open_addressing/hash_table_open_addressing.h"
+#include "chapter-11/hash_table_open_addressing/hash_table_open_addressing.hpp"
 
 using namespace CLRS;
 

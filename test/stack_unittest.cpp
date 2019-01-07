@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <gtest/gtest.h>
-#include "chapter-10/stack/stack.h"
+#include "chapter-10/stack/stack.hpp"
 
 using namespace CLRS;
 

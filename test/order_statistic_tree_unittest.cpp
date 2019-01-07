@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-14/order_statistic_tree/order_statistic_tree.h"
+#include "chapter-14/order_statistic_tree/order_statistic_tree.hpp"
 
 using namespace CLRS;
 

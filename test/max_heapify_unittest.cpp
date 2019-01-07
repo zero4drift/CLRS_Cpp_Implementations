@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include "chapter-6/max_min_heapify/max_min_heapify.h"
+#include "chapter-6/max_min_heapify/max_min_heapify.hpp"
 
 using namespace CLRS;
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-13/red_black_tree/red_black_tree.h"
+#include "chapter-13/red_black_tree/red_black_tree.hpp"
 
 using namespace CLRS;
 

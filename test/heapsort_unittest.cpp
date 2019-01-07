@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-6/heapsort/heapsort.h"
+#include "chapter-6/heapsort/heapsort.hpp"
 
 using namespace CLRS;
 

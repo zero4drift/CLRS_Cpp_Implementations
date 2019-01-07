@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "chapter-7/quicksort/quicksort.h"
+#include "chapter-7/quicksort/quicksort.hpp"
 
 using namespace CLRS;
 

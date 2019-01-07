@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "chapter-20/veb_tree_utilities.h"
-#include "chapter-20/proto_veb_tree/proto_veb_tree.h"
+#include "chapter-20/veb_tree_utilities.hpp"
+#include "chapter-20/proto_veb_tree/proto_veb_tree.hpp"
 
 using namespace CLRS;
 

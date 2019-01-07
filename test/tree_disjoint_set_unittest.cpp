@@ -1,6 +1,6 @@
 #include <memory>
 #include <gtest/gtest.h>
-#include "chapter-21/tree_disjoint_set/tree_disjoint_set.h"
+#include "chapter-21/tree_disjoint_set/tree_disjoint_set.hpp"
 
 using namespace CLRS;
 

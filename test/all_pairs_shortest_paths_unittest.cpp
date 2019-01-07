@@ -1,10 +1,10 @@
 #include <iostream>
 #include <gtest/gtest.h>
-#include "chapter-24/single_source_shortest_paths/sssp_utilities.h"
-#include "chapter-25/all_pairs_shortest_paths/all_pairs_shortest_paths_utilities.h"
-#include "chapter-25/all_pairs_shortest_paths/matrix_all_pairs_shortest_paths/matrix_all_pairs_shortest_paths.h"
-#include "chapter-25/all_pairs_shortest_paths/floyd_warshall/floyd_warshall.h"
-#include "chapter-25/all_pairs_shortest_paths/johnson/johnson.h"
+#include "chapter-24/single_source_shortest_paths/sssp_utilities.hpp"
+#include "chapter-25/all_pairs_shortest_paths/all_pairs_shortest_paths_utilities.hpp"
+#include "chapter-25/all_pairs_shortest_paths/matrix_all_pairs_shortest_paths/matrix_all_pairs_shortest_paths.hpp"
+#include "chapter-25/all_pairs_shortest_paths/floyd_warshall/floyd_warshall.hpp"
+#include "chapter-25/all_pairs_shortest_paths/johnson/johnson.hpp"
 
 using namespace CLRS;
 

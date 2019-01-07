@@ -1,6 +1,6 @@
 #include <vector>
 #include <gtest/gtest.h>
-#include "chapter-6/build_max_min_heap/build_max_min_heap.h"
+#include "chapter-6/build_max_min_heap/build_max_min_heap.hpp"
 
 using namespace CLRS;
 
