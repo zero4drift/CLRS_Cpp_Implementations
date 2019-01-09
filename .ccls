@@ -1,7 +1,6 @@
 %clang
 %cpp -std=c++11
 %cpp -pthread
-%hpp --include=Global.h
 
 # Includes
 -I/usr/include
